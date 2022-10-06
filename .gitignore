@@ -1,0 +1,26 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+/.metadata
+/.sonarlink
+
+# dependencies
+/Ecommerce-FE/auction-app/node_modules
+/Ecommerce-FE/auction-app/.pnp
+/Ecommerce-FE/auction-app.pnp.js
+
+# testing
+/Ecommerce-FE/auction-app/coverage
+
+# production
+/Ecommerce-FE/auction-app/build
+
+# misc
+/Ecommerce-FE/auction-app/.DS_Store
+/Ecommerce-FE/auction-app/.env.local
+/Ecommerce-FE/auction-app/.env.development.local
+/Ecommerce-FE/auction-app/.env.test.local
+/Ecommerce-FE/auction-app/.env.production.local
+
+/Ecommerce-FE/auction-app/npm-debug.log*
+/Ecommerce-FE/auction-app/yarn-debug.log*
+/Ecommerce-FE/auction-app/yarn-error.log*
