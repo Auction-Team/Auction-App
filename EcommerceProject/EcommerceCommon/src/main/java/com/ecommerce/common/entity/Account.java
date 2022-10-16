@@ -7,8 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,8 +20,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Account extends IdBasedEntity {
 
+	private String name;
+	
+	private String address;
+	
+	private String brief;
+	
+	private String image_path;
+	
 	private String email;
 
 	private String password;
@@ -28,6 +39,9 @@ public class Account extends IdBasedEntity {
 	@JoinTable(name = "account_role", joinColumns = { @JoinColumn(name = "ACCOUNT_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="account")
+	private Set<Product> listProducts;
 
 	public Account(String email, String password) {
 		this.email = email;
