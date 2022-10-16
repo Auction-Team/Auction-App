@@ -70,6 +70,7 @@ public class ProductController implements ProductApi {
 	@Override
 	public String deleteProduct(@PathVariable(value = "productId") Long productId) {
 		// TODO: check --> Không thể cập nhật thông tin sản phẩm trước 5 phút đấu giá
+		
 		return productService.findById(productId).map(p -> {
 			productService.deleteById(productId);
 			return "Product deleted";

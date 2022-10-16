@@ -40,7 +40,7 @@ public class Account extends IdBasedEntity {
 			@JoinColumn(name = "ROLE_ID") })
 	private Set<Role> roles;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="account")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="owner")
 	private Set<Product> listProducts;
 
 	public Account(String email, String password) {
