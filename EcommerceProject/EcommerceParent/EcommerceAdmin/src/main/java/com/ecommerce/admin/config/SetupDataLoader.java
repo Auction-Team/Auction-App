@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ecommerce.admin.repository.AccountRepository;
 import com.ecommerce.admin.repository.RoleRepository;
-import com.ecommerce.admin.security.AccountDetail;
 import com.ecommerce.common.entity.Account;
 import com.ecommerce.common.entity.Role;
 
