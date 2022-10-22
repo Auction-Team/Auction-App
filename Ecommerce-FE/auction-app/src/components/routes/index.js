@@ -4,7 +4,7 @@ import PrivateRoute from './PrivateRoute';
 import Error from '../errors/Error';
 import Home from '../../screens/Home';
 import Register from '../../screens/Register'
-import Login from '../../screens/Login'
+import Login from '../../screens/login/Login'
 
 export default function RootRoute() {
   const { admin, login, register, error } = pathConfig;

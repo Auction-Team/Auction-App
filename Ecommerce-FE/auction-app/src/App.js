@@ -1,7 +1,6 @@
-import { Route, Routes } from "react-router-dom";
 import Error from "./components/errors/Error";
-import "antd/dist/antd.css";
 import RootRoute from "./components/routes";
+import 'antd/dist/antd.min.css';
 
 function App() {
   return (
