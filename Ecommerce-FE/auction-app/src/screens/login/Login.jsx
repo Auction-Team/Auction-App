@@ -1,3 +1,4 @@
+import { Form, Input, Button } from 'antd';
 import { useState } from 'react';
 import './Login.css';
 
@@ -18,10 +19,6 @@ export default function Login() {
             <h2 className="user_unregistered-title">
               Don't have an account?
             </h2>
-            <p className="user_unregistered-text">
-              Banjo tote bag bicycle rights, High Life sartorial cray
-              craft beer whatever street art fap.
-            </p>
             <button
               className="user_unregistered-signup"
               id="signup-button"
@@ -33,12 +30,8 @@ export default function Login() {
 
           <div className="user_options-registered">
             <h2 className="user_registered-title">
-              Have an account?
+              Already have an account?
             </h2>
-            <p className="user_registered-text">
-              Banjo tote bag bicycle rights, High Life sartorial cray
-              craft beer whatever street art fap.
-            </p>
             <button
               className="user_registered-login"
               id="login-button"
@@ -51,80 +44,110 @@ export default function Login() {
 
         <div className={optionForm}>
           <div className="user_forms-login">
-            <h2 className="forms_title">Login</h2>
-            <form className="forms_form">
-              <fieldset className="forms_fieldset">
-                <div className="forms_field">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="forms_field-input"
-                    required
-                    autoFocus
-                  />
-                </div>
-                <div className="forms_field">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="forms_field-input"
-                    required
-                  />
-                </div>
-              </fieldset>
-              <div className="forms_buttons">
-                <button
-                  type="button"
-                  className="forms_buttons-forgot"
-                >
-                  Forgot password?
-                </button>
-                <input
-                  type="submit"
-                  value="Log In"
-                  className="forms_buttons-action"
+            <h2 className="forms_title">SIGN IN</h2>
+            <Form
+              layout="vertical"
+              onFinish={async (value) => {
+                //call API for login - signin
+              }}
+              requiredMark={false}
+              initialValues={{}}
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                ]}
+              >
+                <Input
+                  id="signInEmail"
+                  size="large"
+                  placeholder="Email"
+                  type="email"
+                  minLength={10}
+                  maxLength={50}
                 />
-              </div>
-            </form>
+              </Form.Item>
+
+              <Form.Item name="password" rules={[{ required: true }]}>
+                <Input.Password
+                  id="signInPassword"
+                  type="password"
+                  placeholder="●●●●●●●●"
+                  size="large"
+                  minLength={7}
+                  maxLength={50}
+                />
+              </Form.Item>
+
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                block
+                // disabled={disable}
+                // loading={disable}
+              >
+                SIGN IN
+              </Button>
+            </Form>
           </div>
-          
+
           <div className="user_forms-signup">
             <h2 className="forms_title">Sign Up</h2>
-            <form className="forms_form">
-              <fieldset className="forms_fieldset">
-                <div className="forms_field">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="forms_field-input"
-                    required
-                  />
-                </div>
-                <div className="forms_field">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="forms_field-input"
-                    required
-                  />
-                </div>
-                <div className="forms_field">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="forms_field-input"
-                    required
-                  />
-                </div>
-              </fieldset>
-              <div className="forms_buttons">
-                <input
-                  type="submit"
-                  value="Sign up"
-                  className="forms_buttons-action"
+            <Form
+              layout="vertical"
+              onFinish={async (value) => {
+                //call API for signup
+              }}
+              requiredMark={false}
+              initialValues={{}}
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!',
+                  },
+                ]}
+              >
+                <Input
+                  id="signUpEmail"
+                  size="large"
+                  placeholder="Email"
+                  type="email"
+                  minLength={10}
+                  maxLength={50}
                 />
-              </div>
-            </form>
+              </Form.Item>
+
+              <Form.Item name="password" rules={[{ required: true }]}>
+                <Input.Password
+                  id="signUpPassword"
+                  type="password"
+                  placeholder="●●●●●●●●"
+                  size="large"
+                  minLength={7}
+                  maxLength={50}
+                />
+              </Form.Item>
+
+              <Button
+                type="primary"
+                size="large"
+                htmlType="submit"
+                block
+                // disabled={disable}
+                // loading={disable}
+              >
+                SIGN UP
+              </Button>
+            </Form>
           </div>
         </div>
       </div>
