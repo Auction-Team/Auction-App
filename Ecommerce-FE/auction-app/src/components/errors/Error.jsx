@@ -7,7 +7,6 @@ export default function Error(props) {
   let {
     status = '404',
     title,
-    onClick = () => navigate('/'),
   } = props;
 
   if (!title) {
@@ -32,9 +31,14 @@ export default function Error(props) {
       title={status}
       subTitle={title}
       extra={
-        <Button type="primary" onClick={onClick}>
-          Back Home
-        </Button>
+        <>
+          <Button type="primary" onClick={() => navigate(-1)}>
+            Go Back
+          </Button>
+          <Button type="primary" onClick={() => navigate('/')}>
+            Return Home
+          </Button>
+        </>
       }
     />
   );

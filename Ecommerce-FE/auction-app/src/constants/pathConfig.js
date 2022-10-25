@@ -1,14 +1,6 @@
 export const pathConfig = {
-  register: {
-    path: '/register',
-  },
-  login: {
-    path: '/login',
-    permission: []
-  },
-  admin: {
-    path: '/admins',
-    permission: []
+  auth: {
+    path: '/auth',
   },
   error: {
     forbidden: '/forbidden',
