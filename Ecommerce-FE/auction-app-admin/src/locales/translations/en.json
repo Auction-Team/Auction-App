@@ -4,12 +4,12 @@
         "overview": "Overview",
         "management": "Management",
         "order": "Orders",
-        "event": "Events",
-        "ticket": "Tickets",
+        "product": "Products",
+        "account": "Accounts",
         "utilities": "Utilities",
         "calendar": "Calendar"
     },
-    "org": {
-        "profile": "Organizer Profile"
+    "product": {
+        "create": "Create new product"
     }
 }
