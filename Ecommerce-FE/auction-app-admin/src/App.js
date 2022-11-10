@@ -10,7 +10,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
-import routes from "./helper/routes";
+import routes, { privateRoutes } from "./helper/routes";
+import PrivateRoute from "./components/PrivateRoute";
+import { useSelector } from "react-redux";
+import { tokenSelector } from "./redux/slices/accountSlice";
+import Layout from "./pages/Layout";
 
 function App() {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu } =
@@ -42,39 +46,25 @@ function App() {
       setCurrentMode(currentThemeMode);
     }
   }, []);
-
+  // const token = useSelector(tokenSelector);
+  const token = 1;
   return (
     <QueryClientProvider client={queryClient}>
       <div className={currentMode === "Dark" ? "dark" : ""}>
         <BrowserRouter>
           <div className="flex relative dark:bg-main-dark-bg">
-            {activeMenu ? (
-              <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white ">
-                <Sidebar />
-              </div>
-            ) : (
-              <div className="w-0 dark:bg-secondary-dark-bg">
-                <Sidebar />
-              </div>
-            )}
-            <div
-              className={`dark:bg-main-dark-bg  bg-main-bg min-h-screen  w-full
-              ${activeMenu ? "md:ml-72" : "flex-2"}
-                `}
-            >
-              <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full ">
-                <Navbar />
-              </div>
-              <div>
-                <Routes>
-                  {/* dashboard  */}
-                  {routes.map((route) => (
+            <Routes>
+              {routes.map((route) => (
+                <Route path={route.path} element={route.element} />
+              ))}
+              <Route element={<PrivateRoute isAuth={token} />}>
+                <Route element={<Layout />} path="/">
+                  {privateRoutes.map((route) => (
                     <Route path={route.path} element={route.element} />
                   ))}
-                </Routes>
-              </div>
-              <Footer />
-            </div>
+                </Route>
+              </Route>
+            </Routes>
           </div>
         </BrowserRouter>
       </div>

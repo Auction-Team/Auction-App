@@ -17,11 +17,22 @@ const OrderPage = Loadable({
   loader: () => import("../pages/Orders"),
   loading: Loading,
 });
+const LoginPage = Loadable({
+  loader: () => import("../pages/AdminLogin"),
+  loading: Loading,
+});
 const AccountPage = Loadable({
   loader: () => import("../pages/Account"),
   loading: Loading,
 });
-const routes = [
+
+export const routes = [
+  {
+    element: <LoginPage />,
+    path: "/login",
+  },
+];
+export const privateRoutes = [
   {
     element: <AddEditProductPage />,
     path: "/product/create",
