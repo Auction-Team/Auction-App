@@ -21,7 +21,7 @@ i18n
         translations: vn,
       },
     },
-    fallbackLng: "vn",
+    fallbackLng: "en",
     debug: false,
     ns: ["translations"],
     defaultNS: "translations",

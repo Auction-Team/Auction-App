@@ -24,7 +24,7 @@ const UserProfile = ({ setOpen }) => {
   };
 
   return (
-    <div className="nav-item bg-white dark:bg-[#42464D] p-4 rounded-lg w-96 shadow-sm shadow-slate-400">
+    <div className="nav-item bg-white dark:bg-[#42464D] p-2 rounded-lg w-96 ">
       <div className="flex justify-end items-center">
         <MdOutlineCancel
           className="text-2xl rounded-full text-gray-500"
@@ -32,13 +32,11 @@ const UserProfile = ({ setOpen }) => {
         />
       </div>
       <div className="flex gap-4 items-center border-color border-b-1 pb-4">
-        <img
-          className="rounded-full h-[100px] w-[100px] object-cover border-8 border-solid border-gray-200 shadow-md"
-          src={user?.avatar}
-          alt="user-profile"
-        />
         <div>
-          <p className="font-semibold text-2xl text-[#1F3E82]"> {user?.name}</p>
+          <p className="font-semibold text-2xl text-[#1F3E82]">
+            {" "}
+            {user?.firstName}
+          </p>
           <p className="text-gray-500 text-sm dark:text-gray-400">
             {" "}
             {user?.email}

@@ -10,13 +10,8 @@ import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserProfile, userInfoSelector } from "../redux/slices/accountSlice";
-import accountServices, {
-  useFetchUserInfo,
-} from "../api/services/accountServices";
-import organizationServices, {
-  useFetchOrganizerByEmail,
-} from "../api/services/organizationServices";
-const { getOrganizerByEmail } = organizationServices;
+import authServices from "../api/services/authServices";
+const { getProfile } = authServices;
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
     <button
@@ -46,7 +41,6 @@ const Navbar = () => {
   } = useStateContext();
   const user = useSelector(userInfoSelector);
   const [open, setOpen] = useState(false);
-  // const { data: userData, status } = useFetchOrganizerByEmail(user?.email);
   const dispatch = useDispatch();
   const hide = () => {
     setOpen(false);
@@ -73,13 +67,16 @@ const Navbar = () => {
   }, [screenSize]);
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
-  // useEffect(() => {
-  //   const fetchUserInfor = async () => {
-  //     const response = await getOrganizerByEmail(user.email);
-  //     return response.status === 200 && dispatch(setUserProfile(response.data));
-  //   };
-  //   fetchUserInfor();
-  // }, [userData]);
+  useEffect(() => {
+    const fetchUserInfor = async () => {
+      const response = await getProfile();
+      console.log({ response });
+      return (
+        response.success === true && dispatch(setUserProfile(response.user))
+      );
+    };
+    fetchUserInfor();
+  }, []);
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <NavButton
@@ -107,15 +104,10 @@ const Navbar = () => {
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
-            <img
-              className="rounded-full w-8 h-8 object-cover"
-              src={user?.avatar}
-              alt="user-profile"
-            />
             <p>
               <span className="text-gray-400 text-14">Hi,</span>{" "}
               <span className="text-primary font-bold ml-1 text-14">
-                {user?.name}
+                {user?.firstName} {user?.lastName}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />

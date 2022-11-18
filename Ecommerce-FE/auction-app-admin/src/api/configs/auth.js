@@ -20,7 +20,11 @@ export const AuthAPI = {
     data,
   }),
   refreshToken: () => ({
-    url: `/api/auth/refresh/token`,
+    url: `/auth/refresh/token`,
+    method: "GET",
+  }),
+  getProfile: () => ({
+    url: "/auth/profile",
     method: "GET",
   }),
 };

@@ -9,9 +9,17 @@ const login = async (body) => {
     return err.response.data;
   }
 };
-const registerAccount = async (body) => {
+const register = async (body) => {
   try {
-    const response = await httpRequest(AuthAPI.registerAccount(body));
+    const response = await httpRequest(AuthAPI.register(body));
+    return response;
+  } catch (err) {
+    return err.response.data;
+  }
+};
+const getProfile = async () => {
+  try {
+    const response = await httpRequest(AuthAPI.getProfile());
     return response;
   } catch (err) {
     return err.response.data;
@@ -51,7 +59,8 @@ const newPassword = async (body) => {
 };
 const authServices = {
   login,
-  registerAccount,
+  register,
+  getProfile,
   forgotPassword,
   verifyOTP,
   newPassword,

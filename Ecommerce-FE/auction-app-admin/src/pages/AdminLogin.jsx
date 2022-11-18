@@ -35,30 +35,27 @@ function Login() {
       const { email, password } = values;
       setLoading(true);
       const response = await login({ email, password });
-      console.log({response})
-      const profileResponse = await findUser(email);
-      showNotification(response.status);
+      console.log({ response });
+      showNotification(response.success);
       if (isNotEmpty(response)) {
         setLoading(false);
       }
-      if (response.status === 200 || profileResponse.status === 200) {
-        dispatch(setToken(response.data.token));
-        dispatch(setUserProfile(profileResponse.data));
+      if (response.success === true) {
+        dispatch(setToken(response.access_token));
       }
     },
   });
-  const showNotification = (statusCode) => {
-    switch (statusCode) {
-      case 400:
+  const showNotification = (success) => {
+    switch (success) {
+      case false:
         return AlertErrorPopup({
           title: t("popup.login.error"),
           text: t("popup.login.error"),
         });
-      case 200:
-      case 201:
+      case true:
         setTimeout(() => {
           navigate("/");
-        }, 3000);
+        }, 5000);
         return AlertPopup({
           title: t("popup.login.success"),
           text: t("popup.login.success"),
@@ -110,11 +107,6 @@ function Login() {
               {loading ? <ThreeDotsLoading /> : t("pages.login")}
             </button>
           </Col>
-          <div className="flex justify-center items-center mt-3">
-            <a onClick={() => navigate("/forgot-password")}>
-              {t("user.forgot-password")}?
-            </a>
-          </div>
         </Form>
       </FormikProvider>
     </div>
