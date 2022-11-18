@@ -3,10 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const accountSlice = createSlice({
   name: "account",
   initialState: {
-    userInfo: null,
+    userInfo: {
+      name: "Long",
+      email: "longquoc47krb@gmail.com",
+      avatar: "https://picsum.photos/200",
+    },
     email: "",
     avatar: null,
-    token: "",
+    token: null,
   },
   reducers: {
     setUserProfile: (state, action) => {

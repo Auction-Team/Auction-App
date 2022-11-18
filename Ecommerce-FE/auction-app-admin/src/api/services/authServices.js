@@ -1,9 +1,9 @@
 import httpRequest from "../../services/httpRequest";
 import { AuthAPI } from "../configs/auth";
 
-const loginByEmail = async (body) => {
+const login = async (body) => {
   try {
-    const response = await httpRequest(AuthAPI.loginByEmail(body));
+    const response = await httpRequest(AuthAPI.login(body));
     return response;
   } catch (err) {
     return err.response.data;
@@ -50,7 +50,7 @@ const newPassword = async (body) => {
   }
 };
 const authServices = {
-  loginByEmail,
+  login,
   registerAccount,
   forgotPassword,
   verifyOTP,

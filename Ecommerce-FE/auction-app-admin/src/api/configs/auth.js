@@ -1,37 +1,26 @@
 export const AuthAPI = {
-  registerAccount: (data) => ({
+  register: (data) => ({
     url: "/auth/register",
     method: "POST",
     data,
   }),
-  loginByEmail: (data) => ({
+  login: (data) => ({
     url: "/auth/login",
     method: "POST",
     data,
   }),
-  loginByPhone: (data) => ({
-    url: "/account/loginByPhone",
-    method: "POST",
-    data,
-  }),
   forgotPassword: (data) => ({
-    url: "/auth/forget",
+    url: "/auth/forgot/password",
     method: "POST",
     data,
   }),
-  changePassword: (id, data) => ({
-    url: `/auth/changePassword/${id}`,
+  resetPassword: (token, data) => ({
+    url: `/auth/password/reset/${token}`,
     method: "POST",
     data,
   }),
-  verifyOTP: (data) => ({
-    url: "/auth/verifyOTP",
-    method: "POST",
-    data,
-  }),
-  newPassword: (data) => ({
-    url: "/auth/verifyChangePassword",
-    method: "POST",
-    data,
+  refreshToken: () => ({
+    url: `/api/auth/refresh/token`,
+    method: "GET",
   }),
 };

@@ -64,11 +64,11 @@ const img = {
   width: "auto",
   height: "100%",
 };
-const maxSize = 200000;
+const maxSize = 300000;
 function sizeValidator(file) {
   if (file.size > maxSize) {
     AlertErrorPopup({
-      title: t("event.upload.validate.error"),
+      title: t("event.upload.validate.error", { val: maxSize }),
     });
     return {
       code: "file-too-large",
@@ -119,11 +119,12 @@ const UploadImage = (props) => {
       );
     }
   }, [acceptedFiles]);
+
   const initialBackground = useSelector(
     (state) => state.event.initialBackground
   );
   const [file, setFile] = useState(value);
-  console.log({ file, initialBackground });
+
   const style = useMemo(
     () => ({
       ...baseStyle,
@@ -164,8 +165,9 @@ const UploadImage = (props) => {
   ) : null;
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => URL.revokeObjectURL(file.preview);
+    return () => URL.revokeObjectURL(file?.preview);
   }, []);
+  console.log(file?.preview);
   return (
     <>
       <span className="text-primary text-xl font-semibold">{label}</span>

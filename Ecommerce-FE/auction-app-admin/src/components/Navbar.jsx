@@ -1,17 +1,22 @@
 /* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-
-import avatar from "../data/avatar.jpg";
+import { Popover } from "antd";
 import { Notification, UserProfile } from ".";
 import { useStateContext } from "../contexts/ContextProvider";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../redux/slices/accountSlice";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUserProfile, userInfoSelector } from "../redux/slices/accountSlice";
+import accountServices, {
+  useFetchUserInfo,
+} from "../api/services/accountServices";
+import organizationServices, {
+  useFetchOrganizerByEmail,
+} from "../api/services/organizationServices";
+const { getOrganizerByEmail } = organizationServices;
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
     <button
@@ -39,11 +44,15 @@ const Navbar = () => {
     setScreenSize,
     screenSize,
   } = useStateContext();
-  // const user = useSelector(userInfoSelector);
-  const user = {
-    name: "UTE",
-    avatar:
-      "https://images.tkbcdn.com/1/1560/600/Upload/eventcover/2022/10/17/5FE596.jpg",
+  const user = useSelector(userInfoSelector);
+  const [open, setOpen] = useState(false);
+  // const { data: userData, status } = useFetchOrganizerByEmail(user?.email);
+  const dispatch = useDispatch();
+  const hide = () => {
+    setOpen(false);
+  };
+  const handleOpenChange = (newOpen) => {
+    setOpen(newOpen);
   };
   useEffect(() => {
     const handleResize = () => setScreenSize(window.innerWidth);
@@ -64,7 +73,13 @@ const Navbar = () => {
   }, [screenSize]);
 
   const handleActiveMenu = () => setActiveMenu(!activeMenu);
-
+  // useEffect(() => {
+  //   const fetchUserInfor = async () => {
+  //     const response = await getOrganizerByEmail(user.email);
+  //     return response.status === 200 && dispatch(setUserProfile(response.data));
+  //   };
+  //   fetchUserInfor();
+  // }, [userData]);
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
       <NavButton
@@ -81,28 +96,32 @@ const Navbar = () => {
           color={currentColor}
           icon={<RiNotification3Line />}
         />
-
-        <TooltipComponent content="Profile" position="BottomCenter">
+        <Popover
+          content={<UserProfile setOpen={setOpen} />}
+          trigger="click"
+          open={open}
+          placement="bottomRight"
+          onOpenChange={handleOpenChange}
+        >
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
             onClick={() => handleClick("userProfile")}
           >
             <img
               className="rounded-full w-8 h-8 object-cover"
-              src={user.avatar}
+              src={user?.avatar}
               alt="user-profile"
             />
             <p>
               <span className="text-gray-400 text-14">Hi,</span>{" "}
               <span className="text-primary font-bold ml-1 text-14">
-                {user.name}
+                {user?.name}
               </span>
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>
+        </Popover>
         {isClicked.notification && <Notification />}
-        {isClicked.userProfile && <UserProfile />}
       </div>
     </div>
   );

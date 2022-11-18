@@ -14,7 +14,7 @@ import { setToken, setUserProfile } from "../redux/slices/accountSlice";
 import { isNotEmpty } from "../utils/utils";
 import { YupValidations } from "../utils/validate";
 const { findUser } = accountServices;
-const { loginByEmail } = authServices;
+const { login } = authServices;
 function Login() {
   const initialValues = {
     email: "",
@@ -34,18 +34,16 @@ function Login() {
     onSubmit: async (values) => {
       const { email, password } = values;
       setLoading(true);
-      const response = await loginByEmail({
-        email,
-        password,
-      });
-      const userProfileResponse = await findUser(email);
+      const response = await login({ email, password });
+      console.log({response})
+      const profileResponse = await findUser(email);
       showNotification(response.status);
       if (isNotEmpty(response)) {
         setLoading(false);
       }
-      if (response.status === 200 || userProfileResponse.status === 200) {
+      if (response.status === 200 || profileResponse.status === 200) {
         dispatch(setToken(response.data.token));
-        dispatch(setUserProfile(userProfileResponse.data));
+        dispatch(setUserProfile(profileResponse.data));
       }
     },
   });

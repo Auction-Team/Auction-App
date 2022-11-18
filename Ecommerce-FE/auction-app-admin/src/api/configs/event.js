@@ -46,9 +46,26 @@ export const EventAPI = {
     url: `/event/find/${id}`,
     method: "GET",
   }),
-  createEvent: (data) => ({
-    url: "/event/createEvent",
+  createEvent: (userId, data) => ({
+    url: `/event/${userId}`,
     method: "POST",
     data,
+  }),
+  uploadEventBackground: (eventId, userId, data) => ({
+    url: `/event/avatar/${eventId}/${userId}`,
+    method: "POST",
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  }),
+  updateEvent: (eventId, userId, data) => ({
+    url: `/event/${eventId}/${userId}`,
+    method: "PUT",
+    data,
+  }),
+  deleteEvent: (eventId, userId) => ({
+    url: `/event/${eventId}/${userId}`,
+    method: "DELETE",
   }),
 };

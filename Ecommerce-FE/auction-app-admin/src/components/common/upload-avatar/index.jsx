@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from "react";
-import theme from "../../../shared/theme";
-import Avatar from "../avatar";
-import CameraAltRoundedIcon from "@mui/icons-material/CameraAltRounded";
-import IconButton from "@mui/material/IconButton";
 import { Badge } from "@mui/material";
-import CrossIcon from "../../../assets/CrossIcon.svg";
-import CheckIcon from "../../../assets/CheckIcon.svg";
+import IconButton from "@mui/material/IconButton";
+import React, { useState } from "react";
+import { BsFillCameraFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import accountServices from "../../../api/services/accountServices";
-import {
-  emailSelector,
-  setUserAvatar,
-  userInfoSelector,
-} from "../../../redux/slices/accountSlice";
-const { updateAvatar } = accountServices;
+import CheckIcon from "../../../assets/CheckIcon.svg";
+import CrossIcon from "../../../assets/CrossIcon.svg";
+import { setUserAvatar } from "../../../redux/slices/accountSlice";
+import { isNotEmpty } from "../../../utils/utils";
+import Avatar from "../avatar";
 function UploadAvatar({ avatar }) {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarFile, setAvatarFile] = useState(avatar);
   const [showCameraButton, setShowCameraButton] = useState(true);
-  const email = useSelector(emailSelector);
   const dispatch = useDispatch();
   const updateProfileDataChange = (e) => {
     const reader = new FileReader();
@@ -38,9 +32,9 @@ function UploadAvatar({ avatar }) {
   };
   const UploadAvatar = async () => {
     setShowCameraButton(true);
-    const formData = new FormData();
-    formData.append("file", avatarFile);
-    dispatch(setUserAvatar(formData));
+    const form = new FormData();
+    form.append("file", avatarFile);
+    dispatch(setUserAvatar(form))
   };
   return (
     <div>
@@ -80,11 +74,10 @@ function UploadAvatar({ avatar }) {
                   name="file"
                   onChange={updateProfileDataChange}
                 />
-                <CameraAltRoundedIcon
-                  fontSize="medium"
+                <BsFillCameraFill
                   onChange={updateProfileDataChange}
                   style={{
-                    background: theme.main,
+                    background: "#1F3E82",
                     width: 25,
                     height: 25,
                     color: "white",
@@ -104,7 +97,7 @@ function UploadAvatar({ avatar }) {
           >
             <input
               hidden
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               type="file"
               onChange={updateProfileDataChange}
             />

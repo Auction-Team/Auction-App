@@ -1,13 +1,15 @@
 import axios from "axios";
 import { store } from "../redux/store";
 const axiosClient = axios.create({
-  baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
-  // baseURL: `${process.env.REACT_APP_API_HEROKU_SERVER}/api/`,
+  baseURL: `${process.env.REACT_APP_ENDPOINT}/api/`,
+  // baseURL: `${process.env.REACT_APP_ENDPOINT}/api/`,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
-    Authorization: `Bearer ${store.getState().account.token}`,
+    Authorization:
+      store.getState().account.token &&
+      `Bearer ${store.getState().account.token}`,
     Accept: "application/json",
   },
 });
@@ -17,7 +19,9 @@ axiosClient.interceptors.request.use(
   function (config) {
     config.headers = {
       "Content-type": "application/json",
-      Authorization: `Bearer ${store.getState().account.token}`,
+      Authorization:
+        store.getState().account.token &&
+        `Bearer ${store.getState().account.token}`,
     };
     return config;
   },

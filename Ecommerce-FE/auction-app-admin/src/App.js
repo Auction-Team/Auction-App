@@ -12,6 +12,7 @@ import "./App.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import routes, { privateRoutes } from "./helper/routes";
 import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 import { useSelector } from "react-redux";
 import { tokenSelector } from "./redux/slices/accountSlice";
 import Layout from "./pages/Layout";
@@ -46,17 +47,19 @@ function App() {
       setCurrentMode(currentThemeMode);
     }
   }, []);
-  // const token = useSelector(tokenSelector);
-  const token = 1;
+  const token = useSelector(tokenSelector);
   return (
     <QueryClientProvider client={queryClient}>
       <div className={currentMode === "Dark" ? "dark" : ""}>
         <BrowserRouter>
           <div className="flex relative dark:bg-main-dark-bg">
             <Routes>
-              {routes.map((route) => (
-                <Route path={route.path} element={route.element} />
-              ))}
+              <Route element={<PublicRoute isAuth={token} />}>
+                {routes.map((route) => (
+                  <Route path={route.path} element={route.element} />
+                ))}
+              </Route>
+
               <Route element={<PrivateRoute isAuth={token} />}>
                 <Route element={<Layout />} path="/">
                   {privateRoutes.map((route) => (
