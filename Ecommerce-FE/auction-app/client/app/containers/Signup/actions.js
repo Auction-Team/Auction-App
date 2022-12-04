@@ -44,7 +44,8 @@ export const signUp = () => {
         email: 'required|email',
         password: 'required|min:6',
         firstName: 'required',
-        lastName: 'required'
+        lastName: 'required',
+        province: 'required'
       };
 
       const newUser = getState().signup.signupFormData;
@@ -54,7 +55,8 @@ export const signUp = () => {
         'required.email': 'Email is required.',
         'required.password': 'Password is required.',
         'required.firstName': 'First Name is required.',
-        'required.lastName': 'Last Name is required.'
+        'required.lastName': 'Last Name is required.',
+        'required.province': 'Province is required.'
       });
 
       if (!isValid) {
@@ -72,7 +74,7 @@ export const signUp = () => {
       const response = await axios.post('/api/auth/register', user);
 
       const successfulOptions = {
-        title: `You have signed up successfully! You will be receiving an email as well. Thank you!`,
+        title: `You have signed up successfully!`,
         position: 'tr',
         autoDismiss: 1
       };

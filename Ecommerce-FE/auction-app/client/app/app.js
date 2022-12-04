@@ -29,6 +29,7 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 // rc-slider style
 import 'rc-slider/assets/index.css';
+import axios from 'axios';
 
 // Authentication
 const token = localStorage.getItem('token');
@@ -40,6 +41,8 @@ if (token) {
   // authenticate routes
   store.dispatch({ type: SET_AUTH });
 }
+
+axios.defaults.baseURL = 'http://localhost:5000';
 
 const app = () => (
   <Provider store={store}>
