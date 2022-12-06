@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { persistQueryClient } from "@tanstack/react-query-persist-client";
 import "./App.css";
+import "antd/dist/antd.css";
 import { useStateContext } from "./contexts/ContextProvider";
 import routes, { privateRoutes } from "./helper/routes";
 import PrivateRoute from "./components/PrivateRoute";

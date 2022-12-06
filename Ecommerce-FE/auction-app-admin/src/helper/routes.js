@@ -5,10 +5,6 @@ const ProductsPage = Loadable({
   loader: () => import("../pages/Products"),
   loading: Loading,
 });
-const AddEditProductPage = Loadable({
-  loader: () => import("../pages/AddEditProduct"),
-  loading: Loading,
-});
 const OverviewPage = Loadable({
   loader: () => import("../pages/Overview"),
   loading: Loading,
@@ -34,14 +30,6 @@ export const routes = [
 ];
 export const privateRoutes = [
   {
-    element: <AddEditProductPage />,
-    path: "/product/create",
-  },
-  {
-    element: <AddEditProductPage />,
-    path: "/event/update/:eventId",
-  },
-  {
     element: <AccountPage />,
     path: "/accounts",
   },
@@ -62,5 +50,5 @@ export const privateRoutes = [
     path: "/orders",
   },
 ];
-export { ProductsPage, OverviewPage, OrderPage, AddEditProductPage };
+export { ProductsPage, OverviewPage, OrderPage };
 export default routes;
