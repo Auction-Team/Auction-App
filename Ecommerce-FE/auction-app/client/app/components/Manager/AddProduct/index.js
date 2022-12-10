@@ -13,9 +13,9 @@ import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
 import SelectOption from '../../Common/SelectOption';
 
-const taxableSelect = [
-  { value: 1, label: 'Yes' },
-  { value: 0, label: 'No' }
+const quantityUnitSelect = [
+  { value: 'Unit', label: 'Unit' },
+  { value: 'Pair', label: 'Pair' },
 ];
 
 const AddProduct = props => {
@@ -38,27 +38,14 @@ const AddProduct = props => {
     <div className='add-product'>
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-          <Col xs='12' lg='6'>
+          <Col xs='12' md='12'>
             <Input
               type={'text'}
-              error={formErrors['sku']}
-              label={'Sku'}
-              name={'sku'}
-              placeholder={'Product Sku'}
-              value={productFormData.sku}
-              onInputChange={(name, value) => {
-                productChange(name, value);
-              }}
-            />
-          </Col>
-          <Col xs='12' lg='6'>
-            <Input
-              type={'text'}
-              error={formErrors['name']}
+              error={formErrors['auctionName']}
               label={'Name'}
-              name={'name'}
-              placeholder={'Product Name'}
-              value={productFormData.name}
+              name={'auctionName'}
+              placeholder={`Product's Name`}
+              value={productFormData.auctionName}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -90,30 +77,31 @@ const AddProduct = props => {
                 productChange(name, value);
               }}
             />
+          </Col>          
+          <Col xs='12' lg='6'>
+            <SelectOption
+              error={formErrors['quantityUnit']}
+              label={'Quanity Unit'}
+              name={'quantityUnit'}
+              min={1}
+              options={quantityUnitSelect}
+              value={productFormData.quantityUnit}
+              handleSelectChange={value => {
+                productChange('quantityUnit', value);
+              }}
+            />
           </Col>
           <Col xs='12' lg='6'>
             <Input
               type={'number'}
-              error={formErrors['price']}
+              error={formErrors['startingPrice']}
               label={'Price'}
-              name={'price'}
+              name={'startingPrice'}
               min={1}
-              placeholder={'Product Price'}
-              value={productFormData.price}
+              placeholder={`Product's Price`}
+              value={productFormData.startingPrice}
               onInputChange={(name, value) => {
                 productChange(name, value);
-              }}
-            />
-          </Col>
-          <Col xs='12' md='12'>
-            <SelectOption
-              error={formErrors['taxable']}
-              label={'Taxable'}
-              name={'taxable'}
-              options={taxableSelect}
-              value={productFormData.taxable}
-              handleSelectChange={value => {
-                productChange('taxable', value);
               }}
             />
           </Col>

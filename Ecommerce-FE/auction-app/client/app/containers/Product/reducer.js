@@ -34,18 +34,21 @@ const initialState = {
   storeProduct: {},
   productsSelect: [],
   productFormData: {
-    sku: '',
-    name: '',
+    auctionName: '',
     description: '',
     quantity: 1,
-    price: 1,
-    image: {},
-    isActive: true,
-    taxable: { value: 0, label: 'No' },
-    brand: {
-      value: 0,
-      label: 'No Options Selected'
-    }
+    quantityUnit: '',
+    startingPrice: 1,
+    startAunctionTime: '',
+    endAunctionTime: '',
+    category: '',
+    // image: {},
+    // isActive: true,
+    // taxable: { value: 0, label: 'No' },
+    // brand: {
+    //   value: 0,
+    //   label: 'No Options Selected'
+    // }
   },
   isLoading: false,
   productShopData: {
@@ -160,18 +163,21 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         productFormData: {
-          sku: '',
-          name: '',
+          auctionName: '',
           description: '',
           quantity: 1,
-          price: 1,
-          image: {},
-          isActive: true,
-          taxable: { value: 0, label: 'No' },
-          brand: {
-            value: 0,
-            label: 'No Options Selected'
-          }
+          quantityUnit: '',
+          startingPrice: 1,
+          startAunctionTime: '',
+          endAunctionTime: '',
+          category: '',
+          // image: {},
+          // isActive: true,
+          // taxable: { value: 0, label: 'No' },
+          // brand: {
+          //   value: 0,
+          //   label: 'No Options Selected'
+          // }
         },
         product: {
           _id: ''

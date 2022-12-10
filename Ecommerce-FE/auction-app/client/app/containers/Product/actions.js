@@ -239,81 +239,54 @@ export const addProduct = () => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        sku: 'required|alpha_dash',
-        name: 'required',
-        description: 'required|max:200',
+        auctionName: 'required',
+        description: 'max:5000',
         quantity: 'required|numeric',
-        price: 'required|numeric',
-        taxable: 'required',
-        image: 'required',
-        brand: 'required'
+        quantityUnit: 'required',
+        startingPrice: 'required|numeric',
+        startAunctionTime: 'required|date',
+        endAunctionTime: 'required|date',
+        category: 'required',
       };
 
       const product = getState().product.productFormData;
-      const user = getState().account.user;
-      const brands = getState().brand.brandsSelect;
-
-      const brand = unformatSelectOptions([product.brand]);
 
       const newProduct = {
-        sku: product.sku,
-        name: product.name,
+        auctionName: product.auctionName,
         description: product.description,
-        price: product.price,
         quantity: product.quantity,
-        image: product.image,
-        isActive: product.isActive,
-        taxable: product.taxable.value,
-        brand:
-          user.role !== 'ROLE_MERCHANT'
-            ? brand != 0
-              ? brand
-              : null
-            : brands[1].value
+        quantityUnit: product.quantityUnit,
+        startingPrice: product.startingPrice,
+        startAunctionTime: product.startAunctionTime,
+        endAunctionTime: product.endAunctionTime,
+        category: product.category,
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        'required.sku': 'Sku is required.',
-        'alpha_dash.sku':
-          'Sku may have alpha-numeric characters, as well as dashes and underscores only.',
-        'required.name': 'Name is required.',
-        'required.description': 'Description is required.',
+        'required.auctionName': 'Name is required.',
         'max.description':
-          'Description may not be greater than 200 characters.',
+          'Description may not be greater than 5000 characters.',
         'required.quantity': 'Quantity is required.',
-        'required.price': 'Price is required.',
-        'required.taxable': 'Taxable is required.',
-        'required.image': 'Please upload files with jpg, jpeg, png format.',
-        'required.brand': 'Brand is required.'
+        'required.quantityUnit': 'Quantity unit is required',
+        'required.startingPrice': 'Starting price is required.',
+        'required.startAunctionTime': 'Time start is required.',
+        'required.endAunctionTime': 'Time end is required',
+        'required.category': 'Category is required.'
       });
 
       if (!isValid) {
         return dispatch({ type: SET_PRODUCT_FORM_ERRORS, payload: errors });
       }
-      const formData = new FormData();
-      if (newProduct.image) {
-        for (const key in newProduct) {
-          if (newProduct.hasOwnProperty(key)) {
-            if (key === 'brand' && newProduct[key] === null) {
-              continue;
-            } else {
-              formData.set(key, newProduct[key]);
-            }
-          }
-        }
-      }
 
-      const response = await axios.post(`/api/product/add`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
+      const response = await axios.post(`/api/product/create`, newProduct);
 
       const successfulOptions = {
-        title: `${response.data.message}`,
+        title: `Create new product successfully!`,
         position: 'tr',
         autoDismiss: 1
       };
 
-      if (response.data.success === true) {
+      // if (response.data.success === true) {
         dispatch(success(successfulOptions));
         dispatch({
           type: ADD_PRODUCT,
@@ -321,7 +294,7 @@ export const addProduct = () => {
         });
         dispatch(resetProduct());
         dispatch(goBack());
-      }
+      // }
     } catch (error) {
       handleError(error, dispatch);
     }
@@ -333,14 +306,14 @@ export const updateProduct = () => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        name: 'required',
-        sku: 'required|alpha_dash',
-        slug: 'required|alpha_dash',
-        description: 'required|max:200',
+        auctionName: 'required',
+        description: 'max:5000',
         quantity: 'required|numeric',
-        price: 'required|numeric',
-        taxable: 'required',
-        brand: 'required'
+        quantityUnit: 'required',
+        startingPrice: 'required|numeric',
+        startAunctionTime: 'required|date',
+        endAunctionTime: 'required|date',
+        category: 'required',
       };
 
       const product = getState().product.product;
