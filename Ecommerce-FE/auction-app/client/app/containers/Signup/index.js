@@ -15,7 +15,7 @@ import actions from '../../actions';
 
 import Input from '../../components/Common/Input';
 import Button from '../../components/Common/Button';
-import Checkbox from '../../components/Common/Checkbox';
+// import Checkbox from '../../components/Common/Checkbox';
 import LoadingIndicator from '../../components/Common/LoadingIndicator';
 import SignupProvider from '../../components/Common/SignupProvider';
 import SelectOption from '../../components/Common/SelectOption';
@@ -50,17 +50,21 @@ class Signup extends React.PureComponent {
       formErrors,
       isLoading,
       isSubmitting,
-      isSubscribed,
+      // isSubscribed,
       signupChange,
       signUp,
-      subscribeChange,
+      // subscribeChange,
     } = this.props;
 
     if (authenticated) return <Redirect to="/dashboard" />;
 
+    const loginLink = () => {
+      this.props.history.push('/login');
+    };
+
     const handleSubmit = (event) => {
       event.preventDefault();
-      signUp();
+      signUp(loginLink);
     };
 
     return (
@@ -135,7 +139,7 @@ class Signup extends React.PureComponent {
                   name={'province'}
                   options={this.state.provinceList}
                   handleSelectChange={(x) => {
-                    signupChange('province', x.value);
+                    signupChange('province', x.label);
                     axios
                       .get(
                         `/api/address/districts?provinceCode=${x.value}`
@@ -162,7 +166,7 @@ class Signup extends React.PureComponent {
                     name={'district'}
                     options={this.state.districtList}
                     handleSelectChange={(x) => {
-                      signupChange('district', x.value);
+                      signupChange('district', x.label);
                       axios
                         .get(
                           `/api/address/wards?districtCode=${x.value}`
@@ -191,7 +195,7 @@ class Signup extends React.PureComponent {
                     name={'ward'}
                     options={this.state.wardList}
                     handleSelectChange={(x) => {
-                      signupChange('ward', x.value);
+                      signupChange('ward', x.label);
                     }}
                   />
                 </Col>
@@ -206,12 +210,12 @@ class Signup extends React.PureComponent {
             </Col>
           </Row>
           <hr />
-          <Checkbox
+          {/* <Checkbox
             id={'subscribe'}
             label={'Subscribe to newsletter'}
             checked={isSubscribed}
             onChange={subscribeChange}
-          />
+          /> */}
           <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between">
             <Button
               type="submit"
@@ -239,7 +243,7 @@ const mapStateToProps = (state) => {
     formErrors: state.signup.formErrors,
     isLoading: state.signup.isLoading,
     isSubmitting: state.signup.isSubmitting,
-    isSubscribed: state.signup.isSubscribed,
+    // isSubscribed: state.signup.isSubscribed,
   };
 };
 

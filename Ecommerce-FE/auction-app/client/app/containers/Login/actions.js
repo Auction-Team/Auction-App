@@ -56,19 +56,20 @@ export const login = () => {
     dispatch({ type: SET_LOGIN_LOADING, payload: true });
 
     try {
+      debugger
       const response = await axios.post('/api/auth/login', user);
 
-      const firstName = response.data.user.firstName;
+      // const firstName = response.data.user.firstName;
 
       const successfulOptions = {
-        title: `Hey${firstName ? ` ${firstName}` : ''}, Welcome Back!`,
+        title: `Welcome Back!`,
         position: 'tr',
         autoDismiss: 1
       };
 
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.access_token);
 
-      setToken(response.data.token);
+      setToken(response.data.access_token);
 
       dispatch(setAuth());
       dispatch(success(successfulOptions));

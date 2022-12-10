@@ -19,7 +19,7 @@ const handleError = (err, dispatch, title = '') => {
   if (err.response) {
     if (err.response.status === 400) {
       unsuccessfulOptions.title = title ? title : 'Please Try Again!';
-      unsuccessfulOptions.message = err.response.data.error;
+      unsuccessfulOptions.message = err.response.data.errMessage;
       dispatch(error(unsuccessfulOptions));
     } else if (err.response.status === 404) {
       // unsuccessfulOptions.title =

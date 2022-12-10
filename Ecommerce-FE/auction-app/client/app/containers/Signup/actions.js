@@ -12,12 +12,12 @@ import {
   SIGNUP_RESET,
   SET_SIGNUP_LOADING,
   SET_SIGNUP_SUBMITTING,
-  SUBSCRIBE_CHANGE,
+  // SUBSCRIBE_CHANGE,
   SET_SIGNUP_FORM_ERRORS
 } from './constants';
 
-import { setAuth } from '../Authentication/actions';
-import setToken from '../../utils/token';
+// import { setAuth } from '../Authentication/actions';
+// import setToken from '../../utils/token';
 import handleError from '../../utils/error';
 import { allFieldsValidation } from '../../utils/validation';
 
@@ -31,13 +31,13 @@ export const signupChange = (name, value) => {
   };
 };
 
-export const subscribeChange = () => {
-  return {
-    type: SUBSCRIBE_CHANGE
-  };
-};
+// export const subscribeChange = () => {
+//   return {
+//     type: SUBSCRIBE_CHANGE
+//   };
+// };
 
-export const signUp = () => {
+export const signUp = (loginLink) => {
   return async (dispatch, getState) => {
     try {
       const rules = {
@@ -45,18 +45,22 @@ export const signUp = () => {
         password: 'required|min:6',
         firstName: 'required',
         lastName: 'required',
-        province: 'required'
+        province: 'required',
+        district: 'required',
+        ward: 'required',
       };
 
       const newUser = getState().signup.signupFormData;
-      const isSubscribed = getState().signup.isSubscribed;
+      // const isSubscribed = getState().signup.isSubscribed;
 
       const { isValid, errors } = allFieldsValidation(newUser, rules, {
         'required.email': 'Email is required.',
         'required.password': 'Password is required.',
         'required.firstName': 'First Name is required.',
         'required.lastName': 'Last Name is required.',
-        'required.province': 'Province is required.'
+        'required.province': 'Province is required.',
+        'required.district': 'District is required.',
+        'required.ward': 'Ward is required.',
       });
 
       if (!isValid) {
@@ -67,8 +71,9 @@ export const signUp = () => {
       dispatch({ type: SET_SIGNUP_LOADING, payload: true });
 
       const user = {
-        isSubscribed,
-        ...newUser
+        // isSubscribed,
+        ...newUser,
+        fullName: newUser.lastName + newUser.firstName,
       };
 
       const response = await axios.post('/api/auth/register', user);
@@ -79,13 +84,14 @@ export const signUp = () => {
         autoDismiss: 1
       };
 
-      localStorage.setItem('token', response.data.token);
+      // localStorage.setItem('token', response.data.token);
 
-      setToken(response.data.token);
+      // setToken(response.data.token);
 
-      dispatch(setAuth());
+      // dispatch(setAuth());
       dispatch(success(successfulOptions));
       dispatch({ type: SIGNUP_RESET });
+      loginLink();
     } catch (error) {
       const title = `Please try to signup again!`;
       handleError(error, dispatch, title);
