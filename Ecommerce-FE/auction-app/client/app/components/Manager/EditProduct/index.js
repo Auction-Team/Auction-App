@@ -9,7 +9,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 
-import { ROLE_ADMIN } from '../../../constants';
 import Input from '../../Common/Input';
 import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
@@ -22,11 +21,9 @@ const taxableSelect = [
 
 const EditProduct = props => {
   const {
-    user,
     product,
     productChange,
     formErrors,
-    brands,
     updateProduct,
     deleteProduct,
     activateProduct
@@ -48,59 +45,33 @@ const EditProduct = props => {
 
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-          <Col xs='12'>
+        <Col xs="12" md="12">
             <Input
               type={'text'}
-              error={formErrors['name']}
+              error={formErrors['auctionName']}
               label={'Name'}
-              name={'name'}
-              placeholder={'Product Name'}
-              value={product.name}
+              name={'auctionName'}
+              placeholder={`Product's Name`}
+              value={productFormData.auctionName}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12'>
-            <Input
-              type={'text'}
-              error={formErrors['sku']}
-              label={'Sku'}
-              name={'sku'}
-              placeholder={'Product Sku'}
-              value={product.sku}
-              onInputChange={(name, value) => {
-                productChange(name, value);
-              }}
-            />
-          </Col>
-          <Col xs='12'>
-            <Input
-              type={'text'}
-              error={formErrors['slug']}
-              label={'Slug'}
-              name={'slug'}
-              placeholder={'Product Slug'}
-              value={product.slug}
-              onInputChange={(name, value) => {
-                productChange(name, value);
-              }}
-            />
-          </Col>
-          <Col xs='12' md='12'>
+          <Col xs="12" md="12">
             <Input
               type={'textarea'}
               error={formErrors['description']}
               label={'Description'}
               name={'description'}
               placeholder={'Product Description'}
-              value={product.description}
+              value={productFormData.description}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" lg="6">
             <Input
               type={'number'}
               error={formErrors['quantity']}
@@ -108,62 +79,71 @@ const EditProduct = props => {
               name={'quantity'}
               decimals={false}
               placeholder={'Product Quantity'}
-              value={product.quantity}
+              value={productFormData.quantity}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" lg="6">
+            <SelectOption
+              error={formErrors['quantityUnit']}
+              label={'Quanity Unit'}
+              name={'quantityUnit'}
+              options={quantityUnitSelect}
+              handleSelectChange={(x) => {
+                productChange('quantityUnit', x.value);
+              }}
+            />
+          </Col>
+          <Col xs="12" md="12">
             <Input
               type={'number'}
-              error={formErrors['price']}
+              error={formErrors['startingPrice']}
               label={'Price'}
-              name={'price'}
+              name={'startingPrice'}
               min={1}
-              placeholder={'Product Price'}
-              value={product.price}
+              placeholder={`Product's Price`}
+              value={productFormData.startingPrice}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' md='12'>
-            <SelectOption
-              error={formErrors['taxable']}
-              label={'Taxable'}
-              multi={false}
-              name={'taxable'}
-              value={[product.taxable ? taxableSelect[0] : taxableSelect[1]]}
-              options={taxableSelect}
-              handleSelectChange={value => {
-                productChange('taxable', value.value);
+          <Col xs="12" lg="6">
+            <Input
+              type={'datetime-local'}
+              error={formErrors['startAuctionTime']}
+              label={'Start Time'}
+              name={'startAuctionTime'}
+              min={1}
+              value={productFormData.startAuctionTime}
+              onInputChange={(name, value) => {
+                productChange(name, value);
               }}
             />
           </Col>
-          {user.role === ROLE_ADMIN && (
-            <Col xs='12' md='12'>
-              <SelectOption
-                error={formErrors['brand']}
-                label={'Select Brand'}
-                multi={false}
-                value={product.brand}
-                options={brands}
-                handleSelectChange={value => {
-                  productChange('brand', value);
-                }}
-              />
-            </Col>
-          )}
-          <Col xs='12' md='12' className='mt-3 mb-2'>
-            <Switch
-              id={`enable-product-${product._id}`}
-              name={'isActive'}
-              label={'Active?'}
-              checked={product?.isActive}
-              toggleCheckboxChange={value => {
-                productChange('isActive', value);
-                activateProduct(product._id, value);
+          <Col xs="12" lg="6">
+            <Input
+              type={'datetime-local'}
+              error={formErrors['endAuctionTime']}
+              label={'End Time'}
+              name={'endAuctionTime'}
+              min={1}
+              value={productFormData.endAuctionTime}
+              onInputChange={(name, value) => {
+                productChange(name, value);
+              }}
+            />
+          </Col>
+          <Col xs="12" md="12">
+            <SelectOption
+              error={formErrors['category']}
+              label={'Category'}
+              name={'category'}
+              options={listCategory}
+              handleSelectChange={(x) => {
+                productChange('category', x.value);
               }}
             />
           </Col>

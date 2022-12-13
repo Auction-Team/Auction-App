@@ -4,12 +4,12 @@
  *
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import { Row, Col } from 'reactstrap';
 
 import Input from '../../Common/Input';
-import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
 import SelectOption from '../../Common/SelectOption';
 
@@ -18,27 +18,47 @@ const quantityUnitSelect = [
   { value: 'Pair', label: 'Pair' },
 ];
 
-const AddProduct = props => {
+const AddProduct = (props) => {
   const {
-    user,
     productFormData,
     formErrors,
     productChange,
     addProduct,
-    brands,
-    image
+    image,
   } = props;
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     addProduct();
   };
 
+  const [listCategory, setListCategory] = useState([]);
+  useEffect(() => {
+    let onDestroy = false;
+
+    axios.get('/api/product/category/list').then((resp) => {
+      if (!onDestroy) {
+        setListCategory(
+          resp.data.categoryList.map((x) => {
+            return {
+              value: x._id,
+              label: x.name,
+            };
+          })
+        );
+      }
+    });
+
+    return () => {
+      onDestroy = true;
+    };
+  }, []);
+
   return (
-    <div className='add-product'>
+    <div className="add-product">
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-          <Col xs='12' md='12'>
+          <Col xs="12" md="12">
             <Input
               type={'text'}
               error={formErrors['auctionName']}
@@ -51,7 +71,7 @@ const AddProduct = props => {
               }}
             />
           </Col>
-          <Col xs='12' md='12'>
+          <Col xs="12" md="12">
             <Input
               type={'textarea'}
               error={formErrors['description']}
@@ -64,7 +84,7 @@ const AddProduct = props => {
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" lg="6">
             <Input
               type={'number'}
               error={formErrors['quantity']}
@@ -77,21 +97,19 @@ const AddProduct = props => {
                 productChange(name, value);
               }}
             />
-          </Col>          
-          <Col xs='12' lg='6'>
+          </Col>
+          <Col xs="12" lg="6">
             <SelectOption
               error={formErrors['quantityUnit']}
               label={'Quanity Unit'}
               name={'quantityUnit'}
-              min={1}
               options={quantityUnitSelect}
-              value={productFormData.quantityUnit}
-              handleSelectChange={value => {
-                productChange('quantityUnit', value);
+              handleSelectChange={(x) => {
+                productChange('quantityUnit', x.value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" md="12">
             <Input
               type={'number'}
               error={formErrors['startingPrice']}
@@ -105,24 +123,44 @@ const AddProduct = props => {
               }}
             />
           </Col>
-          <Col xs='12' md='12'>
-            <SelectOption
-              disabled={user.role === 'ROLE_MERCHANT'}
-              error={formErrors['brand']}
-              name={'brand'}
-              label={'Select Brand'}
-              value={
-                user.role === 'ROLE_MERCHANT'
-                  ? brands[1]
-                  : productFormData.brand
-              }
-              options={brands}
-              handleSelectChange={value => {
-                productChange('brand', value);
+          <Col xs="12" lg="6">
+            <Input
+              type={'datetime-local'}
+              error={formErrors['startAuctionTime']}
+              label={'Start Time'}
+              name={'startAuctionTime'}
+              min={1}
+              value={productFormData.startAuctionTime}
+              onInputChange={(name, value) => {
+                productChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' md='12'>
+          <Col xs="12" lg="6">
+            <Input
+              type={'datetime-local'}
+              error={formErrors['endAuctionTime']}
+              label={'End Time'}
+              name={'endAuctionTime'}
+              min={1}
+              value={productFormData.endAuctionTime}
+              onInputChange={(name, value) => {
+                productChange(name, value);
+              }}
+            />
+          </Col>
+          <Col xs="12" md="12">
+            <SelectOption
+              error={formErrors['category']}
+              label={'Category'}
+              name={'category'}
+              options={listCategory}
+              handleSelectChange={(x) => {
+                productChange('category', x.value);
+              }}
+            />
+          </Col>
+          {/* <Col xs='12' md='12'>
             <Input
               type={'file'}
               error={formErrors['file']}
@@ -134,20 +172,11 @@ const AddProduct = props => {
                 productChange(name, value);
               }}
             />
-          </Col>
-          <Col xs='12' md='12' className='my-2'>
-            <Switch
-              id={'active-product'}
-              name={'isActive'}
-              label={'Active?'}
-              checked={productFormData.isActive}
-              toggleCheckboxChange={value => productChange('isActive', value)}
-            />
-          </Col>
+          </Col> */}
         </Row>
         <hr />
-        <div className='add-product-actions'>
-          <Button type='submit' text='Add Product' />
+        <div className="add-product-actions">
+          <Button type="submit" text="Add Product" />
         </div>
       </form>
     </div>
