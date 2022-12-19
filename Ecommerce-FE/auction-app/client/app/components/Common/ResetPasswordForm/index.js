@@ -15,7 +15,6 @@ const ResetPasswordForm = props => {
   const {
     resetFormData,
     formErrors,
-    isToken,
     resetPasswordChange,
     resetPassword
   } = props;
@@ -29,27 +28,40 @@ const ResetPasswordForm = props => {
     <div className='reset-password-form'>
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-          <Col xs='12' lg='6'>
+          <Col xs='12' md="12">
             <Input
               type={'password'}
-              error={formErrors['password']}
-              label={'Password'}
-              name={'password'}
-              placeholder={isToken ? 'Password' : 'Old Password'}
-              value={resetFormData.password}
+              error={formErrors['oldPassword']}
+              label={'Old Password'}
+              name={'oldPassword'}
+              placeholder={'Old Password'}
+              value={resetFormData.oldPassword}
               onInputChange={(name, value) => {
                 resetPasswordChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs='12' md="12">
             <Input
               type={'password'}
-              error={formErrors['confirmPassword']}
-              label={'Confirm Password'}
-              name={'confirmPassword'}
-              placeholder={'Confirm Password'}
-              value={resetFormData.confirmPassword}
+              error={formErrors['newPassword']}
+              label={'New Password'}
+              name={'newPassword'}
+              placeholder={'New Password'}
+              value={resetFormData.newPassword}
+              onInputChange={(name, value) => {
+                resetPasswordChange(name, value);
+              }}
+            />
+          </Col>
+          <Col xs='12' md="12">
+            <Input
+              type={'password'}
+              error={formErrors['confirmNewPassword']}
+              label={'Confirm New Password'}
+              name={'confirmNewPassword'}
+              placeholder={'Confirm New Password'}
+              value={resetFormData.confirmNewPassword}
               onInputChange={(name, value) => {
                 resetPasswordChange(name, value);
               }}

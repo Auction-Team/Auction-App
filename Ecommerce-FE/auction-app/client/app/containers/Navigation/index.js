@@ -36,20 +36,20 @@ import Menu from '../NavigationMenu';
 import Cart from '../Cart';
 
 class Navigation extends React.PureComponent {
-  componentDidMount() {
-    this.props.fetchStoreBrands();
-    this.props.fetchStoreCategories();
-  }
+  // componentDidMount() {
+  //   this.props.fetchStoreBrands();
+  //   this.props.fetchStoreCategories();
+  // }
 
-  toggleBrand() {
-    this.props.fetchStoreBrands();
-    this.props.toggleBrand();
-  }
+  // toggleBrand() {
+  //   this.props.fetchStoreBrands();
+  //   this.props.toggleBrand();
+  // }
 
-  toggleMenu() {
-    this.props.fetchStoreCategories();
-    this.props.toggleMenu();
-  }
+  // toggleMenu() {
+  //   this.props.fetchStoreCategories();
+  //   this.props.toggleMenu();
+  // }
 
   getSuggestionValue(suggestion) {
     return suggestion.name;
@@ -112,14 +112,14 @@ class Navigation extends React.PureComponent {
       authenticated,
       user,
       cartItems,
-      brands,
-      categories,
+      // brands,
+      // categories,
       signOut,
-      isMenuOpen,
+      // isMenuOpen,
       isCartOpen,
-      isBrandOpen,
+      // isBrandOpen,
       toggleCart,
-      toggleMenu,
+      // toggleMenu,
       searchValue,
       suggestions,
       onSearch,
@@ -169,7 +169,7 @@ class Navigation extends React.PureComponent {
               className='pr-0'
             >
               <div className='brand'>
-                {categories && categories.length > 0 && (
+                {/* {categories && categories.length > 0 && (
                   <Button
                     borderless
                     variant='empty'
@@ -178,7 +178,7 @@ class Navigation extends React.PureComponent {
                     icon={<BarsIcon />}
                     onClick={() => this.toggleMenu()}
                   />
-                )}
+                )} */}
                 <Link to='/'>
                   <h1 className='logo'>MERN Store</h1>
                 </Link>
@@ -235,7 +235,7 @@ class Navigation extends React.PureComponent {
                   onClick={toggleCart}
                 />
                 <Nav navbar>
-                  {brands && brands.length > 0 && (
+                  {/* {brands && brands.length > 0 && (
                     <Dropdown
                       nav
                       inNavbar
@@ -255,7 +255,7 @@ class Navigation extends React.PureComponent {
                         </div>
                       </DropdownMenu>
                     </Dropdown>
-                  )}
+                  )} */}
                   <NavItem>
                     <NavLink
                       tag={ActiveLink}
@@ -268,7 +268,7 @@ class Navigation extends React.PureComponent {
                   {authenticated ? (
                     <UncontrolledDropdown nav inNavbar>
                       <DropdownToggle nav>
-                        {user.firstName ? user.firstName : 'Welcome'}
+                        Welcome {user.fullName}
                         <span className='fa fa-chevron-down dropdown-caret'></span>
                       </DropdownToggle>
                       <DropdownMenu right>
@@ -319,7 +319,7 @@ class Navigation extends React.PureComponent {
         </div>
 
         {/* hidden menu drawer */}
-        <div
+        {/* <div
           className={isMenuOpen ? 'mini-menu-open' : 'hidden-mini-menu'}
           aria-hidden={`${isMenuOpen ? false : true}`}
         >
@@ -332,7 +332,7 @@ class Navigation extends React.PureComponent {
             }
             onClick={toggleMenu}
           />
-        </div>
+        </div> */}
       </header>
     );
   }
@@ -340,12 +340,12 @@ class Navigation extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-    isMenuOpen: state.navigation.isMenuOpen,
+    // isMenuOpen: state.navigation.isMenuOpen,
     isCartOpen: state.navigation.isCartOpen,
-    isBrandOpen: state.navigation.isBrandOpen,
+    // isBrandOpen: state.navigation.isBrandOpen,
     cartItems: state.cart.cartItems,
-    brands: state.brand.storeBrands,
-    categories: state.category.storeCategories,
+    // brands: state.brand.storeBrands,
+    // categories: state.category.storeCategories,
     authenticated: state.authentication.authenticated,
     user: state.account.user,
     searchValue: state.navigation.searchValue,
