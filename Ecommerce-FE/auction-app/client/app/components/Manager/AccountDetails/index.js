@@ -22,7 +22,7 @@ const AccountDetails = props => {
 
   return (
     <div className='account-details'>
-      <div className='info'>
+      {/* <div className='info'>
         <div className='desc'>
           <p className='one-line-ellipsis mr-3'>
             {user.provider === 'email' ? (
@@ -35,7 +35,7 @@ const AccountDetails = props => {
           </p>
           <UserRole user={user} />
         </div>
-      </div>
+      </div> */}
       <form onSubmit={handleSubmit}>
         <Row>
           <Col xs='12' md='6'>
@@ -75,7 +75,7 @@ const AccountDetails = props => {
               }}
             />
           </Col> */}
-          <Col xs='12' md='12'>
+          {/* <Col xs='12' md='12'>
             <Input
               type={'text'}
               label={'Phone Number'}
@@ -86,7 +86,7 @@ const AccountDetails = props => {
                 accountChange(name, value);
               }}
             />
-          </Col>
+          </Col> */}
         </Row>
         <hr />
         <div className='profile-actions'>

@@ -240,12 +240,12 @@ export const addProduct = () => {
     try {
       const rules = {
         auctionName: 'required',
-        description: 'max:5000',
+        description: 'required|max:5000',
         quantity: 'required|numeric',
         quantityUnit: 'required',
         startingPrice: 'required|numeric',
-        startAunctionTime: 'required|date',
-        endAunctionTime: 'required|date',
+        startAuctionTime: 'required|date',
+        endAuctionTime: 'required|date',
         category: 'required',
       };
 
@@ -257,20 +257,21 @@ export const addProduct = () => {
         quantity: product.quantity,
         quantityUnit: product.quantityUnit,
         startingPrice: product.startingPrice,
-        startAunctionTime: product.startAunctionTime,
-        endAunctionTime: product.endAunctionTime,
+        startAuctionTime: product.startAuctionTime,
+        endAuctionTime: product.endAuctionTime,
         category: product.category,
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
         'required.auctionName': 'Name is required.',
+        'required.description': 'Description is required.',
         'max.description':
           'Description may not be greater than 5000 characters.',
         'required.quantity': 'Quantity is required.',
         'required.quantityUnit': 'Quantity unit is required',
         'required.startingPrice': 'Starting price is required.',
-        'required.startAunctionTime': 'Time start is required.',
-        'required.endAunctionTime': 'Time end is required',
+        'required.startAuctionTime': 'Time start is required.',
+        'required.endAuctionTime': 'Time end is required',
         'required.category': 'Category is required.'
       });
 
@@ -311,7 +312,7 @@ export const updateProduct = () => {
         quantity: 'required|numeric',
         quantityUnit: 'required',
         startingPrice: 'required|numeric',
-        startAunctionTime: 'required|date',
+        startAuctionTime: 'required|date',
         endAunctionTime: 'required|date',
         category: 'required',
       };

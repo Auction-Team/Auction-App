@@ -14,8 +14,20 @@ import CartSummary from '../../components/Store/CartSummary';
 import Checkout from '../../components/Store/Checkout';
 import { BagIcon, CloseIcon } from '../../components/Common/Icon';
 import Button from '../../components/Common/Button';
+import axios from 'axios';
 
 class Cart extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cartItems: []
+    };
+  }
+  componentDidMount() {
+    axios.get('/api/cart/list').then(x => {
+      this.state.cartItems = x.data.listCart[0].productList;
+    })
+  }
   render() {
     const {
       isCartOpen,
@@ -42,11 +54,11 @@ class Cart extends React.PureComponent {
             />
           )}
         </div>
-        {cartItems.length > 0 ? (
+        {this.state.cartItems.length > 0 ? (
           <div className='cart-body'>
             <CartList
               toggleCart={toggleCart}
-              cartItems={cartItems}
+              cartItems={this.state.cartItems}
               handleRemoveFromCart={handleRemoveFromCart}
             />
           </div>
