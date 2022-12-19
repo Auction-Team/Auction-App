@@ -498,11 +498,10 @@ export function Base64() {
   };
   return BASE64;
 }
-export default function fakeDelay(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+export const convertMongodbTimeToString = (date) => {
+  let dateStr = moment(date);
+  return moment(dateStr).format("DD/MM/YYYY HH:mm");
+};
 export function filterData(dateType, dateRange, list) {
   return list && dateType === "date-range"
     ? filterByDate(dateType, list, {

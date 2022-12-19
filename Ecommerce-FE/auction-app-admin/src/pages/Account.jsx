@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 // import for table
 import { SearchOutlined } from "@ant-design/icons";
-import { Spin, Input, Button, Space } from "antd";
-import Highlighter from "react-highlight-words";
+import { Button, Input, Space, Spin } from "antd";
 import { useRef } from "react";
+import Highlighter from "react-highlight-words";
 // end import for table
-import {accountColumns} from "../configs/columns";
-import { eventGrid, contextMenuItems } from "../data/dummy";
-import { Header } from "../components";
-import Table from "../components/Table";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { convertToYearMonthDayFormat } from "../utils/utils";
 import { useFindAllAccount } from "../api/services/accountServices";
+import { Header } from "../components";
+import Table from "../components/Table";
+import { accountColumns } from "../configs/columns";
 const Account = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const {data, status } = useFindAllAccount()
-  
+  const { data, status } = useFindAllAccount();
+
   // for table
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -144,10 +142,7 @@ const Account = () => {
           <Spin />
         </div>
       ) : (
-        <Table
-          columns={accountColumns}
-          dataSource={data.datas}
-        />
+        <Table columns={accountColumns} dataSource={data.datas} />
       )}
     </div>
   );
