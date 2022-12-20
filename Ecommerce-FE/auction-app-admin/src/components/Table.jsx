@@ -1,4 +1,4 @@
-import { Table as AntdTable, Input, Button, Space } from "antd";
+import { Table as AntdTable } from "antd";
 
 const onChange = (pagination, filters, sorter, extra) => {
   console.log("params", pagination, filters, sorter, extra);
@@ -6,7 +6,12 @@ const onChange = (pagination, filters, sorter, extra) => {
 const Table = (props) => {
   const { dataSource, columns } = props;
   return (
-    <AntdTable columns={columns} dataSource={dataSource} onChange={onChange} />
+    <AntdTable
+      columns={columns}
+      dataSource={dataSource}
+      onChange={onChange}
+      bordered
+    />
   );
 };
 export default Table;

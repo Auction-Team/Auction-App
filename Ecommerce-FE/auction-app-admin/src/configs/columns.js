@@ -1,18 +1,15 @@
 import { convertMongodbTimeToString } from "./../utils/utils";
+import Fallback from "./../assets/fallback.jpg";
 export const accountColumns = [
-  {
-    title: "ID",
-    dataIndex: "_id",
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
-    sortDirections: ["descend"],
-  },
   {
     title: "Avatar",
     dataIndex: "avatar",
     // specify the condition of filtering result
     // here is that finding the name started with `value`
-    render: (pic) => <img src={pic} className="h-[2.5rem] w-auto" />,
+    render: (pic) => (
+      <img src={Fallback} className="h-[2.5rem] w-auto" alt="avatar" />
+    ),
+    width: 50,
   },
   {
     title: "Tên",
@@ -34,13 +31,6 @@ export const accountColumns = [
 ];
 export const productColumns = [
   {
-    title: "ID",
-    dataIndex: "_id",
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
-    sortDirections: ["descend"],
-  },
-  {
     title: "Tên sản phẩm",
     dataIndex: "auctionName",
     onFilter: (value, record) => record.auctionName.indexOf(value) === 0,
@@ -55,17 +45,11 @@ export const productColumns = [
     onFilter: (value, record) => record.categoryName.indexOf(value) === 0,
     sorter: (a, b) => a.categoryName.length - b.categoryName.length,
     sortDirections: ["descend"],
-    render: (text) => (
-      <span className="px-4 py-2 border-gray-600 border-2">{text}</span>
-    ),
+    render: (text) => <span>{text}</span>,
   },
   {
     title: "Thời gian bắt đầu đấu giá",
     dataIndex: "startAuctionTime",
-    render: (text) => (
-      <span className="px-4 py-2 border-gray-600 border-2">
-        {convertMongodbTimeToString(text)}
-      </span>
-    ),
+    render: (text) => <span>{convertMongodbTimeToString(text)}</span>,
   },
 ];
