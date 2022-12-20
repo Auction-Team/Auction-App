@@ -9,6 +9,10 @@ const OverviewPage = Loadable({
   loader: () => import("../pages/Overview"),
   loading: Loading,
 });
+const CreateEditProductPage = Loadable({
+  loader: () => import("../pages/CreateEditProduct"),
+  loading: Loading,
+});
 const OrderPage = Loadable({
   loader: () => import("../pages/Orders"),
   loading: Loading,
@@ -36,6 +40,10 @@ export const privateRoutes = [
   {
     element: <ProductsPage />,
     path: "/products",
+  },
+  {
+    element: <CreateEditProductPage />,
+    path: "/product/create",
   },
   {
     element: <OverviewPage />,

@@ -1,11 +1,11 @@
 {
     "sider": {
         "dashboard": "Dashboard",
-        "overview": "Overview",
-        "management": "Management",
+        "overview": "Tổng quan",
+        "management": "Quản lý",
         "order": "Orders",
-        "product": "Products",
-        "account": "Accounts",
+        "product": "Sản phẩm",
+        "account": "Tài khoản",
         "utilities": "Utilities",
         "calendar": "Calendar"
     },
