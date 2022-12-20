@@ -43,11 +43,11 @@ class Application extends React.PureComponent {
     this.handleStorage = this.handleStorage.bind(this);
   }
   componentDidMount() {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
 
-    if (token) {
-      this.props.fetchProfile();
-    }
+    // if (token) {
+    //   this.props.fetchProfile();
+    // }
 
     this.props.handleCart();
 

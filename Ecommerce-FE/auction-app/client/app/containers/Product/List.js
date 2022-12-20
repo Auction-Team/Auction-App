@@ -32,7 +32,7 @@ class List extends React.PureComponent {
         >
           {isLoading ? (
             <LoadingIndicator inline />
-          ) : products.length > 0 ? (
+          ) : products?.length > 0 ? (
             <ProductList products={products} />
           ) : (
             <NotFound message='no products found.' />

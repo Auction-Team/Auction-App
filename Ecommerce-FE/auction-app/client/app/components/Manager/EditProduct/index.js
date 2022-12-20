@@ -10,49 +10,50 @@ import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 
 import Input from '../../Common/Input';
-import Switch from '../../Common/Switch';
 import Button from '../../Common/Button';
 import SelectOption from '../../Common/SelectOption';
 
-const taxableSelect = [
-  { value: 1, label: 'Yes' },
-  { value: 0, label: 'No' }
+const quantityUnitSelect = [
+  { value: 'Unit', label: 'Unit' },
+  { value: 'Pair', label: 'Pair' },
 ];
 
-const EditProduct = props => {
+const EditProduct = (props) => {
   const {
     product,
     productChange,
     formErrors,
     updateProduct,
     deleteProduct,
-    activateProduct
   } = props;
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     updateProduct();
   };
 
   return (
-    <div className='edit-product'>
-      <div className='d-flex flex-row mx-0 mb-3'>
-        <label className='mr-1'>Product link </label>
-        <Link to={`/product/${product.slug}`} className='default-link'>
+    <div className="edit-product">
+      <div className="d-flex flex-row mx-0 mb-3">
+        <label className="mr-1">Product link </label>
+        <Link
+          to={`/product/${product.slug}`}
+          className="default-link"
+        >
           {product.slug}
         </Link>
       </div>
 
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-        <Col xs="12" md="12">
+          <Col xs="12" md="12">
             <Input
               type={'text'}
               error={formErrors['auctionName']}
               label={'Name'}
               name={'auctionName'}
               placeholder={`Product's Name`}
-              value={productFormData.auctionName}
+              value={product.auctionName}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -65,7 +66,7 @@ const EditProduct = props => {
               label={'Description'}
               name={'description'}
               placeholder={'Product Description'}
-              value={productFormData.description}
+              value={product.description}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -79,7 +80,7 @@ const EditProduct = props => {
               name={'quantity'}
               decimals={false}
               placeholder={'Product Quantity'}
-              value={productFormData.quantity}
+              value={product.quantity}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -90,6 +91,9 @@ const EditProduct = props => {
               error={formErrors['quantityUnit']}
               label={'Quanity Unit'}
               name={'quantityUnit'}
+              defaultValue={quantityUnitSelect.filter(
+                (x) => x.value == product.quantityUnit
+              )}
               options={quantityUnitSelect}
               handleSelectChange={(x) => {
                 productChange('quantityUnit', x.value);
@@ -104,7 +108,7 @@ const EditProduct = props => {
               name={'startingPrice'}
               min={1}
               placeholder={`Product's Price`}
-              value={productFormData.startingPrice}
+              value={product.startingPrice}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -117,7 +121,7 @@ const EditProduct = props => {
               label={'Start Time'}
               name={'startAuctionTime'}
               min={1}
-              value={productFormData.startAuctionTime}
+              value={product.startAuctionTime}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -130,13 +134,13 @@ const EditProduct = props => {
               label={'End Time'}
               name={'endAuctionTime'}
               min={1}
-              value={productFormData.endAuctionTime}
+              value={product.endAuctionTime}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
             />
           </Col>
-          <Col xs="12" md="12">
+          {/* <Col xs="12" md="12">
             <SelectOption
               error={formErrors['category']}
               label={'Category'}
@@ -146,18 +150,18 @@ const EditProduct = props => {
                 productChange('category', x.value);
               }}
             />
-          </Col>
+          </Col> */}
         </Row>
         <hr />
-        <div className='d-flex flex-column flex-md-row'>
+        <div className="d-flex flex-column flex-md-row">
           <Button
-            type='submit'
-            text='Save'
-            className='mb-3 mb-md-0 mr-0 mr-md-3'
+            type="submit"
+            text="Save"
+            className="mb-3 mb-md-0 mr-0 mr-md-3"
           />
           <Button
-            variant='danger'
-            text='Delete'
+            variant="danger"
+            text="Delete"
             onClick={() => deleteProduct(product._id)}
           />
         </div>
