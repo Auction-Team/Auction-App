@@ -48,6 +48,8 @@ const AddProduct = (props) => {
         );
       }
     });
+  
+    productChange('quantityUnit', quantityUnitSelect[0].value);
 
     return () => {
       onDestroy = true;

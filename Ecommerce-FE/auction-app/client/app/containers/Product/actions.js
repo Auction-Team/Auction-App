@@ -319,34 +319,28 @@ export const updateProduct = () => {
 
       const product = getState().product.product;
 
-      const brand = unformatSelectOptions([product.brand]);
-
       const newProduct = {
-        name: product.name,
-        sku: product.sku,
-        slug: product.slug,
+        auctionName: product.auctionName,
         description: product.description,
         quantity: product.quantity,
-        price: product.price,
-        taxable: product.taxable,
-        brand: brand != 0 ? brand : null
+        quantityUnit: product.quantityUnit,
+        startingPrice: product.startingPrice,
+        startAuctionTime: product.startAuctionTime,
+        endAuctionTime: product.endAuctionTime,
+        category: product.category
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        'required.name': 'Name is required.',
-        'required.sku': 'Sku is required.',
-        'alpha_dash.sku':
-          'Sku may have alpha-numeric characters, as well as dashes and underscores only.',
-        'required.slug': 'Slug is required.',
-        'alpha_dash.slug':
-          'Slug may have alpha-numeric characters, as well as dashes and underscores only.',
+        'required.auctionName': 'Name is required.',
         'required.description': 'Description is required.',
         'max.description':
-          'Description may not be greater than 200 characters.',
+          'Description may not be greater than 5000 characters.',
         'required.quantity': 'Quantity is required.',
-        'required.price': 'Price is required.',
-        'required.taxable': 'Taxable is required.',
-        'required.brand': 'Brand is required.'
+        'required.quantityUnit': 'Quantity unit is required',
+        'required.startingPrice': 'Starting price is required.',
+        'required.startAuctionTime': 'Time start is required.',
+        'required.endAuctionTime': 'Time end is required',
+        'required.category': 'Category is required.'
       });
 
       if (!isValid) {

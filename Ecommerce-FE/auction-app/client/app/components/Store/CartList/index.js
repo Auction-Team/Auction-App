@@ -30,8 +30,8 @@ const CartList = props => {
                     <img
                       className='item-image mr-2'
                       src={`${
-                        item.imageUrl
-                          ? item.imageUrl
+                        item.mainImage
+                          ? item.mainImage
                           : '/images/placeholder-image.png'
                       }`}
                     />
@@ -42,7 +42,7 @@ const CartList = props => {
                       onClick={handleProductClick}
                     >
                       <h2 className='item-name one-line-ellipsis'>
-                        {item.name}
+                        {item.auctionName}
                       </h2>
                     </Link>
                   </div>
@@ -51,7 +51,7 @@ const CartList = props => {
                   <Button
                     borderless
                     variant='empty'
-                    ariaLabel={`remove ${item.name} from cart`}
+                    ariaLabel={`remove ${item.auctionName} from cart`}
                     icon={<i className='icon-trash' aria-hidden='true' />}
                     onClick={() => handleRemoveFromCart(item)}
                   />

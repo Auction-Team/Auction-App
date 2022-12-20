@@ -29,20 +29,27 @@ const ProductList = (props) => {
           />
           <div className="d-flex flex-column justify-content-center px-3 text-truncate">
             <h4 className="text-truncate">{product.auctionName}</h4>
-            <div className="d-flex align-items-center" style={{gap: '12px'}}>
+            <p className="mb-0 text-truncate">
+              Description: {product.description}
+            </p>
+            <p className="mb-0 text-truncate">
+              Category: {product.categoryName}
+            </p>
+            <div
+              className="d-flex align-items-center"
+              style={{ gap: '12px' }}
+            >
               <p className="mb-0 text-truncate">
-                Description: {product.description}
+                Start time:{' '}
+                {new Date(
+                  product.startAuctionTime
+                ).toLocaleDateString()}
               </p>
               <p className="mb-0 text-truncate">
-                Category: {product.categoryName}
-              </p>
-            </div>
-            <div className="d-flex align-items-center" style={{gap: '12px'}}>
-              <p className="mb-0 text-truncate">
-                Start time: {new Date(product.startAuctionTime).toLocaleDateString()}
-              </p>
-              <p className="mb-0 text-truncate">
-                End time: {new Date(product.endAuctionTime).toLocaleDateString()}
+                End time:{' '}
+                {new Date(
+                  product.endAuctionTime
+                ).toLocaleDateString()}
               </p>
             </div>
           </div>

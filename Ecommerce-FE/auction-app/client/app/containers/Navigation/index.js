@@ -52,13 +52,13 @@ class Navigation extends React.PureComponent {
   // }
 
   getSuggestionValue(suggestion) {
-    return suggestion.name;
+    return suggestion.auctionName;
   }
 
   renderSuggestion(suggestion, { query, isHighlighted }) {
     const BoldName = (suggestion, query) => {
-      const matches = AutosuggestHighlightMatch(suggestion.name, query);
-      const parts = AutosuggestHighlightParse(suggestion.name, matches);
+      const matches = AutosuggestHighlightMatch(suggestion.auctionName, query);
+      const parts = AutosuggestHighlightParse(suggestion.auctionName, matches);
 
       return (
         <div>
@@ -77,13 +77,13 @@ class Navigation extends React.PureComponent {
     };
 
     return (
-      <Link to={`/product/${suggestion.slug}`}>
+      <Link to={`/product/${suggestion._id}`}>
         <div className='d-flex'>
           <img
             className='item-image'
             src={`${
-              suggestion.imageUrl
-                ? suggestion.imageUrl
+              suggestion.mainImage
+                ? suggestion.mainImage
                 : '/images/placeholder-image.png'
             }`}
           />
@@ -96,7 +96,7 @@ class Navigation extends React.PureComponent {
               </Row>
               <Row>
                 <Col>
-                  <span className='price'>${suggestion.price}</span>
+                  <span className='price'>${suggestion.startingPrice ?? 0}</span>
                 </Col>
               </Row>
             </Container>
@@ -199,7 +199,7 @@ class Navigation extends React.PureComponent {
                 renderSuggestion={this.renderSuggestion}
                 inputProps={inputProps}
                 onSuggestionSelected={(_, item) => {
-                  history.push(`/product/${item.suggestion.slug}`);
+                  history.push(`/product/${item.suggestion._id}`);
                 }}
               />
             </Col>
