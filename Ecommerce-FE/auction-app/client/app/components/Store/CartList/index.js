@@ -17,7 +17,7 @@ const CartList = props => {
   const handleProductClick = () => {
     props.toggleCart();
   };
-console.log(cartItems)
+
   return (
     <div className='cart-list'>
       {cartItems.map((item, index) => (

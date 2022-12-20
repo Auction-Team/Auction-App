@@ -104,6 +104,7 @@ const AddProduct = (props) => {
               label={'Quanity Unit'}
               name={'quantityUnit'}
               options={quantityUnitSelect}
+              defaultValue={quantityUnitSelect[0]}
               handleSelectChange={(x) => {
                 productChange('quantityUnit', x.value);
               }}

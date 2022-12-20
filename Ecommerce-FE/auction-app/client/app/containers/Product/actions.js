@@ -190,11 +190,11 @@ export const fetchProducts = () => {
     try {
       dispatch(setProductLoading(true));
 
-      const response = await axios.get(`/api/product`);
+      const response = await axios.get(`/api/product/search`);
 
       dispatch({
         type: FETCH_PRODUCTS,
-        payload: response.data.products
+        payload: response.data?.productList?.datas
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -208,19 +208,19 @@ export const fetchProducts = () => {
 export const fetchProduct = id => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.get(`/api/product/${id}`);
+      const response = await axios.get(`/api/product/detail/${id}`);
 
       const inventory = response.data.product.quantity;
 
-      const brand = response.data.product.brand;
-      const isBrand = brand ? true : false;
-      const brandData = formatSelectOptions(
-        isBrand && [brand],
-        !isBrand,
-        'fetchProduct'
-      );
+      // const brand = response.data.product.brand;
+      // const isBrand = brand ? true : false;
+      // const brandData = formatSelectOptions(
+      //   isBrand && [brand],
+      //   !isBrand,
+      //   'fetchProduct'
+      // );
 
-      response.data.product.brand = brandData[0];
+      // response.data.product.brand = brandData[0];
 
       const product = { ...response.data.product, inventory };
 

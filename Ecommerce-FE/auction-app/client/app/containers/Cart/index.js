@@ -20,13 +20,15 @@ class Cart extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      cartItems: []
+      cartItems: [],
     };
   }
   componentDidMount() {
-    axios.get('/api/cart/list').then(x => {
-      this.state.cartItems = x.data.listCart[0].productList;
-    })
+    if (localStorage.getItem('token')) {
+      axios.get('/api/cart/list').then((x) => {
+        this.state.cartItems = x.data.listCart[0].productList;
+      });
+    }
   }
   render() {
     const {
@@ -38,24 +40,24 @@ class Cart extends React.PureComponent {
       handleCheckout,
       handleRemoveFromCart,
       placeOrder,
-      authenticated
+      authenticated,
     } = this.props;
 
     return (
-      <div className='cart'>
-        <div className='cart-header'>
+      <div className="cart">
+        <div className="cart-header">
           {isCartOpen && (
             <Button
               borderless
-              variant='empty'
-              ariaLabel='close the cart'
+              variant="empty"
+              ariaLabel="close the cart"
               icon={<CloseIcon />}
               onClick={toggleCart}
             />
           )}
         </div>
         {this.state.cartItems.length > 0 ? (
-          <div className='cart-body'>
+          <div className="cart-body">
             <CartList
               toggleCart={toggleCart}
               cartItems={this.state.cartItems}
@@ -63,13 +65,13 @@ class Cart extends React.PureComponent {
             />
           </div>
         ) : (
-          <div className='empty-cart'>
+          <div className="empty-cart">
             <BagIcon />
             <p>Your shopping cart is empty</p>
           </div>
         )}
         {cartItems.length > 0 && (
-          <div className='cart-checkout'>
+          <div className="cart-checkout">
             <CartSummary cartTotal={cartTotal} />
             <Checkout
               handleShopping={handleShopping}
@@ -84,12 +86,12 @@ class Cart extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isCartOpen: state.navigation.isCartOpen,
     cartItems: state.cart.cartItems,
     cartTotal: state.cart.cartTotal,
-    authenticated: state.authentication.authenticated
+    authenticated: state.authentication.authenticated,
   };
 };
 
