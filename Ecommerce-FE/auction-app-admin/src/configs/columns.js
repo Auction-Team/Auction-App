@@ -1,5 +1,16 @@
-import { convertMongodbTimeToString } from "./../utils/utils";
+import { convertMongodbTimeToString, Sorter } from "./../utils/utils";
 import Fallback from "./../assets/fallback.jpg";
+const direction = ["ascend", "descend", ""];
+export const categoryColumns = [
+  {
+    title: "Tên thể loại",
+    dataIndex: "name",
+  },
+  {
+    title: "Mô tả",
+    dataIndex: "description",
+  },
+];
 export const accountColumns = [
   {
     title: "Avatar",
@@ -18,7 +29,7 @@ export const accountColumns = [
     // here is that finding the name started with `value`
     onFilter: (value, record) => record.fullName.indexOf(value) === 0,
     sorter: (a, b) => a.fullName.length - b.fullName.length,
-    sortDirections: ["descend"],
+    sortDirections: direction,
   },
   {
     title: "Email",
@@ -26,7 +37,7 @@ export const accountColumns = [
     defaultSortOrder: "descend",
     onFilter: (value, record) => record.email.indexOf(value) === 0,
     sorter: (a, b) => a.email - b.email,
-    sortDirections: ["descend"],
+    sortDirections: direction,
   },
 ];
 export const productColumns = [
@@ -34,22 +45,26 @@ export const productColumns = [
     title: "Tên sản phẩm",
     dataIndex: "auctionName",
     onFilter: (value, record) => record.auctionName.indexOf(value) === 0,
-    sorter: (a, b) => a.auctionName.length - b.auctionName.length,
-    sortDirections: ["descend"],
+    sorter: (a, b) => Sorter.sort(a.auctionName, b.auctionName),
+    sortDirections: direction,
   },
   {
     title: "Loại sản phẩm",
     dataIndex: "categoryName",
-    // specify the condition of filtering result
-    // here is that finding the name started with `value`
-    onFilter: (value, record) => record.categoryName.indexOf(value) === 0,
-    sorter: (a, b) => a.categoryName.length - b.categoryName.length,
-    sortDirections: ["descend"],
     render: (text) => <span>{text}</span>,
   },
   {
     title: "Thời gian bắt đầu đấu giá",
     dataIndex: "startAuctionTime",
     render: (text) => <span>{convertMongodbTimeToString(text)}</span>,
+  },
+  {
+    title: "Thời gian kết thúc đấu giá",
+    dataIndex: "endAuctionTime",
+    render: (text) => <span>{convertMongodbTimeToString(text)}</span>,
+  },
+  {
+    title: "Chủ sở hữu",
+    dataIndex: "owner",
   },
 ];

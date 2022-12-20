@@ -10,6 +10,9 @@ const Table = (props) => {
       columns={columns}
       dataSource={dataSource}
       onChange={onChange}
+      pagination={{
+        pageSize: 5,
+      }}
       bordered
     />
   );

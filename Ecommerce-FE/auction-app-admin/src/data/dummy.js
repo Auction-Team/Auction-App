@@ -539,8 +539,8 @@ export const links = [
         icon: <BsBoxSeam />,
       },
       {
-        name: "sider.order",
-        route: "orders",
+        name: "sider.category",
+        route: "category",
         icon: <AiOutlineShoppingCart />,
       },
     ],
