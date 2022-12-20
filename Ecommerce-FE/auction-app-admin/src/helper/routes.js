@@ -13,8 +13,8 @@ const CreateEditProductPage = Loadable({
   loader: () => import("../pages/CreateEditProduct"),
   loading: Loading,
 });
-const OrderPage = Loadable({
-  loader: () => import("../pages/Orders"),
+const Categories = Loadable({
+  loader: () => import("../pages/Categories"),
   loading: Loading,
 });
 const LoginPage = Loadable({
@@ -54,9 +54,9 @@ export const privateRoutes = [
     path: "/overview",
   },
   {
-    element: <OrderPage />,
-    path: "/orders",
+    element: <Categories />,
+    path: "/category",
   },
 ];
-export { ProductsPage, OverviewPage, OrderPage };
+export { ProductsPage, OverviewPage, Categories };
 export default routes;
