@@ -37,7 +37,7 @@ const ProductList = (props) => {
             </p>
             <div
               className="d-flex align-items-center"
-              style={{ gap: '12px' }}
+              style={{ gap: '66px' }}
             >
               <p className="mb-0 text-truncate">
                 Start time:{' '}
