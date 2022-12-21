@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
+import dayjs from 'dayjs';
 
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
@@ -31,6 +32,20 @@ const EditProduct = (props) => {
     event.preventDefault();
     updateProduct();
   };
+
+  function canUpdate() {
+    var res = false;
+    var today = dayjs().format('YYYY/MM/DD HH:mm:ss');
+    var start = dayjs(product.startAuctionTime).format(
+      'YYYY/MM/DD HH:mm:ss'
+    );
+
+    // thời gian hiện tại chưa bắt đầu đấu giá
+    if (new Date(today) < new Date(start)) {
+      res = true;
+    }
+    return res;
+  }
 
   return (
     <div className="edit-product">
@@ -120,8 +135,13 @@ const EditProduct = (props) => {
               error={formErrors['startAuctionTime']}
               label={'Start Time'}
               name={'startAuctionTime'}
-              min={1}
-              value={product.startAuctionTime}
+              value={product.startAuctionTime
+                .slice(0, 11)
+                .concat(
+                  new Date(
+                    product.startAuctionTime
+                  ).toLocaleTimeString()
+                )}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -133,8 +153,13 @@ const EditProduct = (props) => {
               error={formErrors['endAuctionTime']}
               label={'End Time'}
               name={'endAuctionTime'}
-              min={1}
-              value={product.endAuctionTime}
+              value={product.endAuctionTime
+                .slice(0, 11)
+                .concat(
+                  new Date(
+                    product.endAuctionTime
+                  ).toLocaleTimeString()
+                )}
               onInputChange={(name, value) => {
                 productChange(name, value);
               }}
@@ -153,18 +178,20 @@ const EditProduct = (props) => {
           </Col> */}
         </Row>
         <hr />
-        <div className="d-flex flex-column flex-md-row">
-          <Button
-            type="submit"
-            text="Save"
-            className="mb-3 mb-md-0 mr-0 mr-md-3"
-          />
-          <Button
-            variant="danger"
-            text="Delete"
-            onClick={() => deleteProduct(product._id)}
-          />
-        </div>
+        {canUpdate() && (
+          <div className="d-flex flex-column flex-md-row">
+            <Button
+              type="submit"
+              text="Save"
+              className="mb-3 mb-md-0 mr-0 mr-md-3"
+            />
+            <Button
+              variant="danger"
+              text="Delete"
+              onClick={() => deleteProduct(product._id)}
+            />
+          </div>
+        )}
       </form>
     </div>
   );

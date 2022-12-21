@@ -29,7 +29,6 @@ class ResetPassword extends React.PureComponent {
         <h2>Reset Password</h2>
         <hr />
         <ResetPasswordForm
-          isToken
           resetFormData={resetFormData}
           formErrors={formErrors}
           resetPasswordChange={resetPasswordChange}

@@ -192,7 +192,7 @@ class Navigation extends React.PureComponent {
               className='pt-2 pt-lg-0'
             >
               <Autosuggest
-                suggestions={suggestions}
+                suggestions={suggestions ?? []}
                 onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                 onSuggestionsClearRequested={onSuggestionsClearRequested}
                 getSuggestionValue={this.getSuggestionValue}
