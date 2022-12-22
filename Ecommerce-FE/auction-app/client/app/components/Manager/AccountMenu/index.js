@@ -25,7 +25,7 @@ const AccountMenu = props => {
       />
       <h3 className='panel-title'>Dashboard</h3>
       <Navbar color='light' light expand='md'>
-        <Collapse isOpen={isMenuOpen} navbar>
+        {/* <Collapse isOpen={isMenuOpen} navbar> */}
           <ul className='panel-links'>
             {links.map((link, index) => {
               const PREFIX = link.prefix ? link.prefix : '';
@@ -42,7 +42,7 @@ const AccountMenu = props => {
               );
             })}
           </ul>
-        </Collapse>
+        {/* </Collapse> */}
       </Navbar>
     </div>
   );
