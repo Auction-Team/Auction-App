@@ -4,10 +4,9 @@
  *
  */
 
-import { goBack } from 'connected-react-router';
-import { success } from 'react-notification-system-redux';
-import axios from 'axios';
-import isEmpty from 'lodash/isEmpty';
+import { goBack } from "connected-react-router";
+import { success } from "react-notification-system-redux";
+import axios from "axios";
 
 import {
   FETCH_PRODUCTS,
@@ -25,19 +24,19 @@ import {
   FETCH_PRODUCTS_SELECT,
   SET_PRODUCTS_LOADING,
   SET_ADVANCED_FILTERS,
-  RESET_ADVANCED_FILTERS
-} from './constants';
+  RESET_ADVANCED_FILTERS,
+} from "./constants";
 
-import handleError from '../../utils/error';
-import { formatSelectOptions, unformatSelectOptions } from '../../utils/select';
-import { allFieldsValidation } from '../../utils/validation';
+import handleError from "../../utils/error";
+import { formatSelectOptions, unformatSelectOptions } from "../../utils/select";
+import { allFieldsValidation } from "../../utils/validation";
 
 export const productChange = (name, value) => {
   let formData = {};
   formData[name] = value;
   return {
     type: PRODUCT_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
@@ -47,7 +46,7 @@ export const productEditChange = (name, value) => {
 
   return {
     type: PRODUCT_EDIT_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
@@ -57,7 +56,7 @@ export const productShopChange = (name, value) => {
 
   return {
     type: PRODUCT_SHOP_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
@@ -67,10 +66,10 @@ export const resetProduct = () => {
   };
 };
 
-export const setProductLoading = value => {
+export const setProductLoading = (value) => {
   return {
     type: SET_PRODUCTS_LOADING,
-    payload: value
+    payload: value,
   };
 };
 
@@ -89,25 +88,25 @@ export const filterProducts = (n, v) => {
 
       const response = await axios.get(`/api/product/list`, {
         params: {
-          ...payload
-        }
+          ...payload,
+        },
       });
       const { products, totalPages, currentPage, count } = response.data;
 
       dispatch({
         type: FETCH_STORE_PRODUCTS,
-        payload: products
+        payload: products,
       });
 
       const newPayload = {
         ...payload,
         totalPages,
         currentPage,
-        count
+        count,
       };
       dispatch({
         type: SET_ADVANCED_FILTERS,
-        payload: newPayload
+        payload: newPayload,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -118,19 +117,18 @@ export const filterProducts = (n, v) => {
 };
 
 // fetch store product api
-export const fetchStoreProduct = slug => {
+export const fetchStoreProduct = (id) => {
   return async (dispatch, getState) => {
     dispatch(setProductLoading(true));
 
     try {
-      const response = await axios.get(`/api/product/item/${slug}`);
+      const response = await axios.get(`/api/product/detail/${id}`);
 
-      const inventory = response.data.product.quantity;
-      const product = { ...response.data.product, inventory };
+      const product = { ...response.data.product };
 
       dispatch({
         type: FETCH_STORE_PRODUCT,
-        payload: product
+        payload: product,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -140,7 +138,7 @@ export const fetchStoreProduct = slug => {
   };
 };
 
-export const fetchBrandProducts = slug => {
+export const fetchBrandProducts = (slug) => {
   return async (dispatch, getState) => {
     try {
       dispatch(setProductLoading(true));
@@ -153,12 +151,12 @@ export const fetchBrandProducts = slug => {
         payload: Object.assign(s, {
           pages: response.data.pages,
           pageNumber: response.data.page,
-          totalProducts: response.data.totalProducts
-        })
+          totalProducts: response.data.totalProducts,
+        }),
       });
       dispatch({
         type: FETCH_STORE_PRODUCTS,
-        payload: response.data.products
+        payload: response.data.products,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -177,7 +175,7 @@ export const fetchProductsSelect = () => {
 
       dispatch({
         type: FETCH_PRODUCTS_SELECT,
-        payload: formattedProducts
+        payload: formattedProducts,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -206,7 +204,7 @@ export const fetchProducts = () => {
 };
 
 // fetch product api
-export const fetchProduct = id => {
+export const fetchProduct = (id) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.get(`/api/product/detail/${id}`);
@@ -227,7 +225,7 @@ export const fetchProduct = id => {
 
       dispatch({
         type: FETCH_PRODUCT,
-        payload: product
+        payload: product,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -240,14 +238,14 @@ export const addProduct = (img) => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        auctionName: 'required',
-        description: 'required|max:5000',
-        quantity: 'required|numeric',
-        quantityUnit: 'required',
-        startingPrice: 'required|numeric',
-        startAuctionTime: 'required|date',
-        endAuctionTime: 'required|date',
-        category: 'required',
+        auctionName: "required",
+        description: "required|max:5000",
+        quantity: "required|numeric",
+        quantityUnit: "required",
+        startingPrice: "required|numeric",
+        startAuctionTime: "required|date",
+        endAuctionTime: "required|date",
+        category: "required",
       };
 
       const product = getState().product.productFormData;
@@ -264,16 +262,16 @@ export const addProduct = (img) => {
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        'required.auctionName': 'Name is required.',
-        'required.description': 'Description is required.',
-        'max.description':
-          'Description may not be greater than 5000 characters.',
-        'required.quantity': 'Quantity is required.',
-        'required.quantityUnit': 'Quantity unit is required',
-        'required.startingPrice': 'Starting price is required.',
-        'required.startAuctionTime': 'Time start is required.',
-        'required.endAuctionTime': 'Time end is required',
-        'required.category': 'Category is required.'
+        "required.auctionName": "Name is required.",
+        "required.description": "Description is required.",
+        "max.description":
+          "Description may not be greater than 5000 characters.",
+        "required.quantity": "Quantity is required.",
+        "required.quantityUnit": "Quantity unit is required",
+        "required.startingPrice": "Starting price is required.",
+        "required.startAuctionTime": "Time start is required.",
+        "required.endAuctionTime": "Time end is required",
+        "required.category": "Category is required.",
       });
 
       if (!isValid) {
@@ -291,18 +289,18 @@ export const addProduct = (img) => {
 
       const successfulOptions = {
         title: `Create new product successfully!`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
 
       // if (response.data.success === true) {
-        dispatch(success(successfulOptions));
-        dispatch({
-          type: ADD_PRODUCT,
-          payload: response.data.product
-        });
-        dispatch(resetProduct());
-        dispatch(goBack());
+      dispatch(success(successfulOptions));
+      dispatch({
+        type: ADD_PRODUCT,
+        payload: response.data.product,
+      });
+      dispatch(resetProduct());
+      dispatch(goBack());
       // }
     } catch (error) {
       handleError(error, dispatch);
@@ -315,14 +313,14 @@ export const updateProduct = () => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        auctionName: 'required',
-        description: 'max:5000',
-        quantity: 'required|numeric',
-        quantityUnit: 'required',
-        startingPrice: 'required|numeric',
-        startAuctionTime: 'required|date',
-        endAunctionTime: 'required|date',
-        category: 'required',
+        auctionName: "required",
+        description: "max:5000",
+        quantity: "required|numeric",
+        quantityUnit: "required",
+        startingPrice: "required|numeric",
+        startAuctionTime: "required|date",
+        endAunctionTime: "required|date",
+        category: "required",
       };
 
       const product = getState().product.product;
@@ -335,26 +333,26 @@ export const updateProduct = () => {
         startingPrice: product.startingPrice,
         startAuctionTime: product.startAuctionTime,
         endAuctionTime: product.endAuctionTime,
-        category: product.category
+        category: product.category,
       };
 
       const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        'required.auctionName': 'Name is required.',
-        'required.description': 'Description is required.',
-        'max.description':
-          'Description may not be greater than 5000 characters.',
-        'required.quantity': 'Quantity is required.',
-        'required.quantityUnit': 'Quantity unit is required',
-        'required.startingPrice': 'Starting price is required.',
-        'required.startAuctionTime': 'Time start is required.',
-        'required.endAuctionTime': 'Time end is required',
-        'required.category': 'Category is required.'
+        "required.auctionName": "Name is required.",
+        "required.description": "Description is required.",
+        "max.description":
+          "Description may not be greater than 5000 characters.",
+        "required.quantity": "Quantity is required.",
+        "required.quantityUnit": "Quantity unit is required",
+        "required.startingPrice": "Starting price is required.",
+        "required.startAuctionTime": "Time start is required.",
+        "required.endAuctionTime": "Time end is required",
+        "required.category": "Category is required.",
       });
 
       if (!isValid) {
         return dispatch({
           type: SET_PRODUCT_FORM_EDIT_ERRORS,
-          payload: errors
+          payload: errors,
         });
       }
 
@@ -364,8 +362,8 @@ export const updateProduct = () => {
 
       const successfulOptions = {
         title: `${response.data.message}`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
@@ -385,14 +383,14 @@ export const activateProduct = (id, value) => {
     try {
       const response = await axios.put(`/api/product/${id}/active`, {
         product: {
-          isActive: value
-        }
+          isActive: value,
+        },
       });
 
       const successfulOptions = {
         title: `${response.data.message}`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
@@ -405,22 +403,22 @@ export const activateProduct = (id, value) => {
 };
 
 // delete product api
-export const deleteProduct = id => {
+export const deleteProduct = (id) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.delete(`/api/product/delete/${id}`);
 
       const successfulOptions = {
         title: `${response.data.message}`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
         dispatch(success(successfulOptions));
         dispatch({
           type: REMOVE_PRODUCT,
-          payload: id
+          payload: id,
         });
         dispatch(goBack());
       }
@@ -432,7 +430,7 @@ export const deleteProduct = id => {
 
 const productsFilterOrganizer = (n, v, s) => {
   switch (n) {
-    case 'category':
+    case "category":
       return {
         name: s.name,
         category: v,
@@ -442,9 +440,9 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: s.order,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
-    case 'brand':
+    case "brand":
       return {
         name: s.name,
         category: s.category,
@@ -454,9 +452,9 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: s.order,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
-    case 'sorting':
+    case "sorting":
       return {
         name: s.name,
         category: s.category,
@@ -466,9 +464,9 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: v,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
-    case 'price':
+    case "price":
       return {
         name: s.name,
         category: s.category,
@@ -478,9 +476,9 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: s.order,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
-    case 'rating':
+    case "rating":
       return {
         name: s.name,
         category: s.category,
@@ -490,9 +488,9 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: v,
         order: s.order,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
-    case 'pagination':
+    case "pagination":
       return {
         name: s.name,
         category: s.category,
@@ -502,7 +500,7 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: s.order,
         page: v ?? s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
     default:
       return {
@@ -514,12 +512,12 @@ const productsFilterOrganizer = (n, v, s) => {
         rating: s.rating,
         order: s.order,
         page: s.currentPage,
-        limit: s.limit
+        limit: s.limit,
       };
   }
 };
 
-const getSortOrder = value => {
+const getSortOrder = (value) => {
   let sortOrder = {};
   switch (value) {
     case 0:
