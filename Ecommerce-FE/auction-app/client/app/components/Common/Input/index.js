@@ -130,6 +130,7 @@ const Input = props => {
             name={name}
             value={value}
             placeholder={placeholder}
+            accept="image/png, image/gif, image/jpeg"
           />
           {inlineElement}
         </div>

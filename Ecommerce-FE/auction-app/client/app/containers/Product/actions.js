@@ -7,6 +7,7 @@
 import { goBack } from 'connected-react-router';
 import { success } from 'react-notification-system-redux';
 import axios from 'axios';
+import isEmpty from 'lodash/isEmpty';
 
 import {
   FETCH_PRODUCTS,
@@ -235,7 +236,7 @@ export const fetchProduct = id => {
 };
 
 // add product api
-export const addProduct = () => {
+export const addProduct = (img) => {
   return async (dispatch, getState) => {
     try {
       const rules = {
@@ -280,6 +281,13 @@ export const addProduct = () => {
       }
 
       const response = await axios.post(`/api/product/create`, newProduct);
+
+      if (img) {
+        var formData = new FormData();
+        formData.append('file', img);
+        
+        await axios.post(`/api/product/upload?mainImageFlag=true&productId=${response.data.product._id}`, formData);
+      }
 
       const successfulOptions = {
         title: `Create new product successfully!`,
@@ -350,7 +358,7 @@ export const updateProduct = () => {
         });
       }
 
-      const response = await axios.put(`/api/product/${product._id}`, {
+      const response = await axios.put(`/api/product/edit/${product._id}`, {
         product: newProduct
       });
 
@@ -530,3 +538,4 @@ const getSortOrder = value => {
 
   return sortOrder;
 };
+

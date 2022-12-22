@@ -56,7 +56,7 @@ class Cart extends React.PureComponent {
             />
           )}
         </div>
-        {this.state.cartItems.length > 0 ? (
+        {this.state.cartItems?.length > 0 ? (
           <div className="cart-body">
             <CartList
               toggleCart={toggleCart}
@@ -70,7 +70,7 @@ class Cart extends React.PureComponent {
             <p>Your shopping cart is empty</p>
           </div>
         )}
-        {cartItems.length > 0 && (
+        {cartItems?.length > 0 && (
           <div className="cart-checkout">
             <CartSummary cartTotal={cartTotal} />
             <Checkout

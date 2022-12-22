@@ -54,7 +54,7 @@ export const resetPassword = token => {
         });
       }
 
-      const response = await axios.post(`/api/auth/reset/${token}`, user);
+      const response = await axios.put(`/api/auth/password/reset/${token}`, user);
       const successfulOptions = {
         title: `${response.data.message}`,
         position: 'tr',

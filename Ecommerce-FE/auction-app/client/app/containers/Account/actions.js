@@ -11,7 +11,7 @@ import {
   ACCOUNT_CHANGE,
   FETCH_PROFILE,
   CLEAR_ACCOUNT,
-  SET_PROFILE_LOADING
+  SET_PROFILE_LOADING,
 } from './constants';
 import handleError from '../../utils/error';
 
@@ -21,20 +21,20 @@ export const accountChange = (name, value) => {
 
   return {
     type: ACCOUNT_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
 export const clearAccount = () => {
   return {
-    type: CLEAR_ACCOUNT
+    type: CLEAR_ACCOUNT,
   };
 };
 
-export const setProfileLoading = value => {
+export const setProfileLoading = (value) => {
   return {
     type: SET_PROFILE_LOADING,
-    payload: value
+    payload: value,
   };
 };
 
@@ -53,19 +53,35 @@ export const fetchProfile = () => {
   };
 };
 
-export const updateProfile = () => {
+export const updateProfile = (img) => {
   return async (dispatch, getState) => {
-    const profile = getState().account.user;
+    const user = getState().account.user;
 
     try {
-      const response = await axios.put(`/api/user`, {
+      const profile = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        province: user.province,
+        district: user.district,
+        ward: user.ward,
+      };
+
+      const response = await axios.put(
+        `/api/user/update/profile`,
         profile
-      });
+      );
+
+      if (img) {
+        var formData = new FormData();
+        formData.append('file', img);
+
+        await axios.post(`/api/user/upload`, formData);
+      }
 
       const successfulOptions = {
-        title: `${response.data.message}`,
+        title: `Update profile successfully`,
         position: 'tr',
-        autoDismiss: 1
+        autoDismiss: 1,
       };
 
       dispatch({ type: FETCH_PROFILE, payload: response.data.user });

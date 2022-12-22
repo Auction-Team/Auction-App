@@ -24,12 +24,14 @@ const AddProduct = (props) => {
     formErrors,
     productChange,
     addProduct,
-    image,
   } = props;
 
+  const [img, setImg] = useState();
+  var imgUrl = img ? URL.createObjectURL(img) : '';
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    addProduct();
+    addProduct(img);
   };
 
   const [listCategory, setListCategory] = useState([]);
@@ -48,7 +50,7 @@ const AddProduct = (props) => {
         );
       }
     });
-  
+
     productChange('quantityUnit', quantityUnitSelect[0].value);
 
     return () => {
@@ -72,6 +74,21 @@ const AddProduct = (props) => {
                 productChange(name, value);
               }}
             />
+          </Col>
+          <Col xs="12" lg="6">
+            <Input
+              type={'file'}
+              error={formErrors['file']}
+              name={'image'}
+              label={'Image'}
+              placeholder={'Please Upload Image'}
+              onInputChange={(name, value) => {
+                setImg(value);
+              }}
+            />
+          </Col>
+          <Col xs="12" lg="6">
+            <img src={imgUrl} style={{borderRadius: '3px', height: '200px'}}></img>
           </Col>
           <Col xs="12" md="12">
             <Input
@@ -163,19 +180,6 @@ const AddProduct = (props) => {
               }}
             />
           </Col>
-          {/* <Col xs='12' md='12'>
-            <Input
-              type={'file'}
-              error={formErrors['file']}
-              name={'image'}
-              label={'file'}
-              placeholder={'Please Upload Image'}
-              value={image}
-              onInputChange={(name, value) => {
-                productChange(name, value);
-              }}
-            />
-          </Col> */}
         </Row>
         <hr />
         <div className="add-product-actions">
