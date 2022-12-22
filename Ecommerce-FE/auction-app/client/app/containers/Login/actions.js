@@ -4,23 +4,23 @@
  *
  */
 
-import { success } from 'react-notification-system-redux';
-import axios from 'axios';
-import { push } from 'connected-react-router';
+import { success } from "react-notification-system-redux";
+import axios from "axios";
+import { push } from "connected-react-router";
 
 import {
   LOGIN_CHANGE,
   LOGIN_RESET,
   SET_LOGIN_LOADING,
   SET_LOGIN_FORM_ERRORS,
-  SET_LOGIN_SUBMITTING
-} from './constants';
-import { setAuth, clearAuth } from '../Authentication/actions';
-import setToken from '../../utils/token';
-import handleError from '../../utils/error';
-import { clearCart } from '../Cart/actions';
-import { clearAccount } from '../Account/actions';
-import { allFieldsValidation } from '../../utils/validation';
+  SET_LOGIN_SUBMITTING,
+} from "./constants";
+import { setAuth, clearAuth } from "../Authentication/actions";
+import setToken from "../../utils/token";
+import handleError from "../../utils/error";
+import { clearCart } from "../Cart/actions";
+import { clearAccount } from "../Account/actions";
+import { allFieldsValidation } from "../../utils/validation";
 
 export const loginChange = (name, value) => {
   let formData = {};
@@ -28,24 +28,24 @@ export const loginChange = (name, value) => {
 
   return {
     type: LOGIN_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
 export const login = () => {
   return async (dispatch, getState) => {
     const rules = {
-      email: 'required|email',
-      password: 'required|min:6'
+      email: "required|email",
+      password: "required|min:6",
     };
 
     const user = getState().login.loginFormData;
 
     const { isValid, errors } = allFieldsValidation(user, rules, {
-      'required.email': 'Email is required.',
-      'email.email': 'Email format is invalid.',
-      'required.password': 'Password is required.',
-      'min.password': 'Password must be at least 6 characters.'
+      "required.email": "Email is required.",
+      "email.email": "Email format is invalid.",
+      "required.password": "Password is required.",
+      "min.password": "Password must be at least 6 characters.",
     });
 
     if (!isValid) {
@@ -56,17 +56,17 @@ export const login = () => {
     dispatch({ type: SET_LOGIN_LOADING, payload: true });
 
     try {
-      const response = await axios.post('/api/auth/login', user);
+      const response = await axios.post("/api/auth/login", user);
 
       // const firstName = response.data.user.firstName;
 
       const successfulOptions = {
         title: `Welcome Back!`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
 
-      localStorage.setItem('token', response.data.access_token);
+      localStorage.setItem("token", response.data.access_token);
 
       setToken(response.data.access_token);
 
@@ -85,24 +85,24 @@ export const login = () => {
 };
 
 export const signOut = () => {
-  return async (dispatch, getState) => {  
-    try{
-      const response = await axios.get('/api/auth/logout');
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get("/api/auth/logout");
 
       const successfulOptions = {
         title: response.data.message ?? `You have signed out!`,
-        position: 'tr',
-        autoDismiss: 1
+        position: "tr",
+        autoDismiss: 1,
       };
-  
+
       dispatch(clearAuth());
       dispatch(clearAccount());
-      dispatch(push('/login'));
-  
-      localStorage.removeItem('token');
-  
+      dispatch(push("/login"));
+
+      localStorage.removeItem("token");
+
       dispatch(success(successfulOptions));
-      // dispatch(clearCart());    
+      // dispatch(clearCart());
     } catch (error) {
       const title = `Please try to logout again!`;
       handleError(error, dispatch, title);

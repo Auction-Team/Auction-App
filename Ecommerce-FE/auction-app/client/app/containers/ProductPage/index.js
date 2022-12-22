@@ -4,13 +4,12 @@
  *
  */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Row, Col } from "reactstrap";
 import { Link, useParams } from "react-router-dom";
 
 import actions from "../../actions";
-
 import Input from "../../components/Common/Input";
 import Button from "../../components/Common/Button";
 import LoadingIndicator from "../../components/Common/LoadingIndicator";
@@ -20,13 +19,27 @@ import ProductReviews from "../../components/Store/ProductReviews";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
 import { convertToDateTimeString } from "../../utils/date";
-
+import { useSocket } from "../../contexts/Socket";
+import Pagination from "../../components/Common/Pagination";
+import jwt_decode from "jwt-decode";
 function ProductPage() {
   const { id } = useParams();
   const getProductById = async (id) => {
-    const response = await axios.get(`/api/product/detail/${id}`);
+    const response = await axios.get(`/api/product/detail/${id}`, {
+      params: {
+        size: 10000,
+      },
+    });
     return response.data.product;
   };
+  //Room State
+  const [room, setRoom] = useState("");
+
+  // Messages States
+  const [message, setMessage] = useState("");
+  const [messageReceived, setMessageReceived] = useState("");
+  const { socket, connect, disconnect } = useSocket();
+
   const { data: product, isLoading } = useQuery(
     ["getEventDetail", id],
     () => getProductById(id),
@@ -35,8 +48,37 @@ function ProductPage() {
       cacheTime: 1000 * 60,
     }
   );
-  console.log({ product });
-  useEffect(() => {}, []);
+  const userId = jwt_decode(localStorage.getItem("token")).id;
+  console.log({ userId });
+  // pagination
+  const [current, setCurrent] = useState(3);
+  const onChange = (page) => {
+    console.log(page);
+    setCurrent(page);
+  };
+
+  useEffect(() => {
+    connect();
+  }, []);
+  useEffect(() => {
+    if (socket) {
+      socket.on("join_auction_product", (userId, id) => {
+        setUsers(users);
+      });
+      socket.on("add_message_group", (msgs, id) => {
+        setMessages((prevState) => [...prevState, ...msgs]);
+      });
+      socket.on("message", onMessage);
+    }
+
+    return () => {
+      disconnect();
+    };
+  }, [socket]);
+  const onMessage = (message) => {
+    setMessages((prevState) => [...prevState, message]);
+  };
+
   return (
     <div className="product-shop">
       {isLoading ? (

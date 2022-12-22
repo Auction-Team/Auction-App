@@ -4,68 +4,79 @@
  *
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { connect } from "react-redux";
 
 import actions from "../../actions";
-
+import ReactPaginate from "react-paginate";
 import ProductList from "../../components/Store/ProductList";
 import NotFound from "../../components/Common/NotFound";
 import LoadingIndicator from "../../components/Common/LoadingIndicator";
 import axios from "axios";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { QueryClientHook } from "react-query-class-component";
-class ProductsShop extends React.PureComponent {
-  componentDidMount() {
-    const slug = this.props.match.params.slug;
-    this.props.filterProducts(slug);
-  }
+import Pagination from "../../components/Common/Pagination";
+import { useSocket } from "../../contexts/Socket";
 
-  render() {
-    const { products, isLoading, authenticated, updateWishlist } = this.props;
+function ProductShop(props) {
+  const { authenticated } = props;
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalPage, setTotalPage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const handlePageClick = (event) => {
+    console.log("select: " + event.selected);
+    setCurrentPage(event.selected);
+  };
+  useEffect(() => {
+    setLoading(true);
+    const fetchProduct = async () => {
+      const response = await axios.get("/api/product/search", {
+        params: {
+          size: 6,
+          page: currentPage,
+        },
+      });
+      setProducts(response.data.productList.datas);
+      setTotalPage(response.data.productList.totalData);
+    };
+    fetchProduct();
+    setLoading(false);
+  }, [currentPage]);
+  console.log("current page: " + currentPage);
 
-    const displayProducts = products && products.length > 0;
+  console.log({ products });
+  return (
+    <div className="products-shop">
+      {loading && <LoadingIndicator />}
+      {products.length === 0 && <NotFound message="no products found." />}
 
-    return (
-      <div className="products-shop">
-        <QueryClientHook
-          hook={useQuery} // react query hook
-          params={[
-            "products", // keyName
-            () => {
-              // query function
-              const response = axios.get("/api/product/search");
-              return response;
-            },
-            // ...options
-          ]}
-        >
-          {({ data, isLoading }) => {
-            if (isLoading) return <LoadingIndicator />;
-            if (data.data.productList.datas.length === 0) {
-              <NotFound message="no products found." />;
-            }
-            return (
-              <ProductList
-                products={data.data.productList.datas}
-                authenticated={authenticated}
-                updateWishlist={updateWishlist}
-              />
-            );
-          }}
-        </QueryClientHook>
-      </div>
-    );
-  }
+      <>
+        <ProductList products={products} authenticated={authenticated} />
+        <ReactPaginate
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={totalPage / 6} // The total number of pages.
+          previousLabel="< previous"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination mt-4"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
+        />
+      </>
+    </div>
+  );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    products: state.product.products,
-    isLoading: state.product.isLoading,
-    authenticated: state.authentication.authenticated,
-  };
-};
-
-export default connect(mapStateToProps, actions)(ProductsShop);
+export default ProductShop;
