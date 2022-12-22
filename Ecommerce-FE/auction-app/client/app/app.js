@@ -46,17 +46,17 @@ if (token) {
 axios.defaults.baseURL = "http://localhost:5000";
 
 const app = () => (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <SocketProvider>
+  <SocketProvider>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
         <QueryClientProvider client={queryClient}>
           <ScrollToTop>
             <Application />
           </ScrollToTop>
         </QueryClientProvider>
-      </SocketProvider>
-    </ConnectedRouter>
-  </Provider>
+      </ConnectedRouter>
+    </Provider>
+  </SocketProvider>
 );
 
 export default app;

@@ -4,19 +4,34 @@
  *
  */
 
+import jwtDecode from "jwt-decode";
 import React from "react";
 
 import { Link } from "react-router-dom";
+import { io } from "socket.io-client";
+import { useSocket } from "../../../contexts/Socket";
 
 import AddToWishList from "../AddToWishList";
 
 const ProductList = (props) => {
   const { products, updateWishlist, authenticated } = props;
-  console.log({ products });
+  console.log({ socket });
+  const { socket, connect, disconnect } = useSocket();
+  const userId = jwtDecode(localStorage.getItem("token")).id;
+  const onJoinAuction = (productId) => {
+    socket.emit("join_auction_product", (userId, productId));
+    console.log("joined");
+    console.log("userId:", userId);
+    console.log("productId:", productId);
+  };
   return (
     <div className="product-list">
       {products.map((product, index) => (
-        <div key={index} className="mb-3 mb-md-0">
+        <div
+          key={index}
+          className="mb-3 mb-md-0"
+          onClick={() => onJoinAuction(product._id)}
+        >
           <div className="product-container">
             <div className="item-box">
               <div className="item-link">
