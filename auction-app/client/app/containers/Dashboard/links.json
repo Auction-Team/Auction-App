@@ -2,25 +2,25 @@
   "ROLE_ADMIN": [
     { "to": "", "name": "Account Details", "prefix": "/dashboard" },
     { "to": "/security", "name": "Account Security", "prefix": "/dashboard" },
-    { "to": "/product", "name": "Products", "prefix": "/dashboard" },
+    { "to": "/product", "name": "My Products", "prefix": "/dashboard" },
+    { "to": "/reconcile", "name": "Reconcile", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
-    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" }
   ],
   "ROLE_MERCHANT": [
     { "to": "", "name": "Account Details", "prefix": "/dashboard" },
     { "to": "/security", "name": "Account Security", "prefix": "/dashboard" },
-    { "to": "/product", "name": "Products", "prefix": "/dashboard" },
+    { "to": "/product", "name": "My Products", "prefix": "/dashboard" },
+    { "to": "/reconcile", "name": "Reconcile", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
-    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" }
   ],
   "ROLE_MEMBER": [
     { "to": "", "name": "Account Details", "prefix": "/dashboard" },
     { "to": "/security", "name": "Account Security", "prefix": "/dashboard" },
-    { "to": "/product", "name": "Products", "prefix": "/dashboard" },
+    { "to": "/product", "name": "My Products", "prefix": "/dashboard" },
+    { "to": "/reconcile", "name": "Reconcile", "prefix": "/dashboard" },
     { "to": "/orders", "name": "Orders", "prefix": "/dashboard" },
-    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" },
-    { "to": "/support", "name": "Support" }
+    { "to": "/review", "name": "Reviews", "prefix": "/dashboard" }
   ]
 }

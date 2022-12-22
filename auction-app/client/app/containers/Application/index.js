@@ -101,7 +101,7 @@ class Application extends React.PureComponent {
                   component={ResetPassword}
                 />
                 <Route path="/auth/success" component={AuthSuccess} />
-                <Route path="/support" component={Authentication(Support)} />
+                {/* <Route path="/support" component={Authentication(Support)} /> */}
                 <Route
                   path="/dashboard"
                   component={Authentication(Dashboard)}

@@ -6,32 +6,34 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 
 import actions from '../../actions';
-
-import { default as SupportManager } from '../../components/Manager/Support';
+import Page404 from '../../components/Common/Page404';
+import Add from './Add';
+import List from './List'
 
 class Support extends React.PureComponent {
   render() {
-    const { user } = this.props;
+    // const { user } = this.props;
 
     return (
-      <div className='support'>
-        <h3>Support</h3>
-        <hr />
-        <div className='mt-5'>
-          <SupportManager user={user} />
-        </div>
-      </div>
+      <div className='reconcile-dashboard'>
+      <Switch>
+        <Route exact path='/dashboard/reconcile' component={List} />
+        <Route exact path='/dashboard/reconcile/add' component={Add} />
+        <Route path='*' component={Page404} />
+      </Switch>
+    </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.account.user,
-    resetFormData: state.resetPassword.resetFormData,
-    formErrors: state.resetPassword.formErrors
+    // user: state.account.user,
+    // resetFormData: state.resetPassword.resetFormData,
+    // formErrors: state.resetPassword.formErrors,
   };
 };
 
