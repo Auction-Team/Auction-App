@@ -13,7 +13,7 @@ import {
   SET_SIGNUP_LOADING,
   SET_SIGNUP_SUBMITTING,
   // SUBSCRIBE_CHANGE,
-  SET_SIGNUP_FORM_ERRORS
+  SET_SIGNUP_FORM_ERRORS,
 } from './constants';
 
 // import { setAuth } from '../Authentication/actions';
@@ -27,7 +27,7 @@ export const signupChange = (name, value) => {
 
   return {
     type: SIGNUP_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
@@ -53,18 +53,25 @@ export const signUp = (loginLink) => {
       const newUser = getState().signup.signupFormData;
       // const isSubscribed = getState().signup.isSubscribed;
 
-      const { isValid, errors } = allFieldsValidation(newUser, rules, {
-        'required.email': 'Email is required.',
-        'required.password': 'Password is required.',
-        'required.firstName': 'First Name is required.',
-        'required.lastName': 'Last Name is required.',
-        'required.province': 'Province is required.',
-        'required.district': 'District is required.',
-        'required.ward': 'Ward is required.',
-      });
+      const { isValid, errors } = allFieldsValidation(
+        newUser,
+        rules,
+        {
+          'required.email': 'Email is required.',
+          'required.password': 'Password is required.',
+          'required.firstName': 'First Name is required.',
+          'required.lastName': 'Last Name is required.',
+          'required.province': 'Province is required.',
+          'required.district': 'District is required.',
+          'required.ward': 'Ward is required.',
+        }
+      );
 
       if (!isValid) {
-        return dispatch({ type: SET_SIGNUP_FORM_ERRORS, payload: errors });
+        return dispatch({
+          type: SET_SIGNUP_FORM_ERRORS,
+          payload: errors,
+        });
       }
 
       dispatch({ type: SET_SIGNUP_SUBMITTING, payload: true });
@@ -73,7 +80,7 @@ export const signUp = (loginLink) => {
       const user = {
         // isSubscribed,
         ...newUser,
-        fullName: newUser.lastName + newUser.firstName,
+        fullName: newUser.lastName + ' ' + newUser.firstName,
       };
 
       const response = await axios.post('/api/auth/register', user);
@@ -81,7 +88,7 @@ export const signUp = (loginLink) => {
       const successfulOptions = {
         title: `You have signed up successfully!`,
         position: 'tr',
-        autoDismiss: 1
+        autoDismiss: 1,
       };
 
       // localStorage.setItem('token', response.data.token);

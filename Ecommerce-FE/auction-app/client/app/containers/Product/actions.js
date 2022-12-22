@@ -4,9 +4,9 @@
  *
  */
 
-import { goBack } from "connected-react-router";
-import { success } from "react-notification-system-redux";
-import axios from "axios";
+import { goBack } from 'connected-react-router';
+import { success } from 'react-notification-system-redux';
+import axios from 'axios';
 
 import {
   FETCH_PRODUCTS,
@@ -25,11 +25,14 @@ import {
   SET_PRODUCTS_LOADING,
   SET_ADVANCED_FILTERS,
   RESET_ADVANCED_FILTERS,
-} from "./constants";
+} from './constants';
 
-import handleError from "../../utils/error";
-import { formatSelectOptions, unformatSelectOptions } from "../../utils/select";
-import { allFieldsValidation } from "../../utils/validation";
+import handleError from '../../utils/error';
+import {
+  formatSelectOptions,
+  unformatSelectOptions,
+} from '../../utils/select';
+import { allFieldsValidation } from '../../utils/validation';
 
 export const productChange = (name, value) => {
   let formData = {};
@@ -91,7 +94,8 @@ export const filterProducts = (n, v) => {
           ...payload,
         },
       });
-      const { products, totalPages, currentPage, count } = response.data;
+      const { products, totalPages, currentPage, count } =
+        response.data;
 
       dispatch({
         type: FETCH_STORE_PRODUCTS,
@@ -143,7 +147,9 @@ export const fetchBrandProducts = (slug) => {
     try {
       dispatch(setProductLoading(true));
 
-      const response = await axios.get(`/api/product/list/brand/${slug}`);
+      const response = await axios.get(
+        `/api/product/list/brand/${slug}`
+      );
 
       const s = getState().product.advancedFilters;
       dispatch({
@@ -171,7 +177,9 @@ export const fetchProductsSelect = () => {
     try {
       const response = await axios.get(`/api/product/list/select`);
 
-      const formattedProducts = formatSelectOptions(response.data.products);
+      const formattedProducts = formatSelectOptions(
+        response.data.products
+      );
 
       dispatch({
         type: FETCH_PRODUCTS_SELECT,
@@ -193,7 +201,7 @@ export const fetchProducts = () => {
 
       dispatch({
         type: FETCH_PRODUCTS,
-        payload: response.data?.productList
+        payload: response.data?.productList,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -238,14 +246,14 @@ export const addProduct = (img) => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        auctionName: "required",
-        description: "required|max:5000",
-        quantity: "required|numeric",
-        quantityUnit: "required",
-        startingPrice: "required|numeric",
-        startAuctionTime: "required|date",
-        endAuctionTime: "required|date",
-        category: "required",
+        auctionName: 'required',
+        description: 'required|max:5000',
+        quantity: 'required|numeric',
+        quantityUnit: 'required',
+        startingPrice: 'required|numeric',
+        startAuctionTime: 'required|date',
+        endAuctionTime: 'required|date',
+        category: 'required',
       };
 
       const product = getState().product.productFormData;
@@ -261,35 +269,48 @@ export const addProduct = (img) => {
         category: product.category,
       };
 
-      const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        "required.auctionName": "Name is required.",
-        "required.description": "Description is required.",
-        "max.description":
-          "Description may not be greater than 5000 characters.",
-        "required.quantity": "Quantity is required.",
-        "required.quantityUnit": "Quantity unit is required",
-        "required.startingPrice": "Starting price is required.",
-        "required.startAuctionTime": "Time start is required.",
-        "required.endAuctionTime": "Time end is required",
-        "required.category": "Category is required.",
-      });
+      const { isValid, errors } = allFieldsValidation(
+        newProduct,
+        rules,
+        {
+          'required.auctionName': 'Name is required.',
+          'required.description': 'Description is required.',
+          'max.description':
+            'Description may not be greater than 5000 characters.',
+          'required.quantity': 'Quantity is required.',
+          'required.quantityUnit': 'Quantity unit is required',
+          'required.startingPrice': 'Starting price is required.',
+          'required.startAuctionTime': 'Time start is required.',
+          'required.endAuctionTime': 'Time end is required',
+          'required.category': 'Category is required.',
+        }
+      );
 
       if (!isValid) {
-        return dispatch({ type: SET_PRODUCT_FORM_ERRORS, payload: errors });
+        return dispatch({
+          type: SET_PRODUCT_FORM_ERRORS,
+          payload: errors,
+        });
       }
 
-      const response = await axios.post(`/api/product/create`, newProduct);
+      const response = await axios.post(
+        `/api/product/create`,
+        newProduct
+      );
 
       if (img) {
         var formData = new FormData();
         formData.append('file', img);
-        
-        await axios.post(`/api/product/upload?mainImageFlag=true&productId=${response.data.product._id}`, formData);
+
+        await axios.post(
+          `/api/product/upload?mainImageFlag=true&productId=${response.data.product._id}`,
+          formData
+        );
       }
 
       const successfulOptions = {
         title: `Create new product successfully!`,
-        position: "tr",
+        position: 'tr',
         autoDismiss: 1,
       };
 
@@ -309,18 +330,18 @@ export const addProduct = (img) => {
 };
 
 // update Product api
-export const updateProduct = () => {
+export const updateProduct = (img) => {
   return async (dispatch, getState) => {
     try {
       const rules = {
-        auctionName: "required",
-        description: "max:5000",
-        quantity: "required|numeric",
-        quantityUnit: "required",
-        startingPrice: "required|numeric",
-        startAuctionTime: "required|date",
-        endAunctionTime: "required|date",
-        category: "required",
+        auctionName: 'required',
+        description: 'max:5000',
+        quantity: 'required|numeric',
+        quantityUnit: 'required',
+        startingPrice: 'required|numeric',
+        startAuctionTime: 'required|date',
+        endAuctionTime: 'required|date',
+        category: 'required',
       };
 
       const product = getState().product.product;
@@ -336,18 +357,22 @@ export const updateProduct = () => {
         category: product.category,
       };
 
-      const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-        "required.auctionName": "Name is required.",
-        "required.description": "Description is required.",
-        "max.description":
-          "Description may not be greater than 5000 characters.",
-        "required.quantity": "Quantity is required.",
-        "required.quantityUnit": "Quantity unit is required",
-        "required.startingPrice": "Starting price is required.",
-        "required.startAuctionTime": "Time start is required.",
-        "required.endAuctionTime": "Time end is required",
-        "required.category": "Category is required.",
-      });
+      const { isValid, errors } = allFieldsValidation(
+        newProduct,
+        rules,
+        {
+          'required.auctionName': 'Name is required.',
+          'required.description': 'Description is required.',
+          'max.description':
+            'Description may not be greater than 5000 characters.',
+          'required.quantity': 'Quantity is required.',
+          'required.quantityUnit': 'Quantity unit is required',
+          'required.startingPrice': 'Starting price is required.',
+          'required.startAuctionTime': 'Time start is required.',
+          'required.endAuctionTime': 'Time end is required',
+          'required.category': 'Category is required.',
+        }
+      );
 
       if (!isValid) {
         return dispatch({
@@ -356,17 +381,28 @@ export const updateProduct = () => {
         });
       }
 
-      const response = await axios.put(`/api/product/edit/${product._id}`, {
-        product: newProduct
-      });
+      const response = await axios.put(
+        `/api/product/edit/${product._id}`,
+        newProduct
+      );
+
+      if (img) {
+        var formData = new FormData();
+        formData.append('file', img);
+
+        await axios.post(
+          `/api/product/upload?mainImageFlag=true&productId=${product._id}`,
+          formData
+        );
+      }
 
       const successfulOptions = {
         title: `${response.data.message}`,
-        position: "tr",
+        position: 'tr',
         autoDismiss: 1,
       };
 
-      if (response.data.success === true) {
+      if (response.data) {
         dispatch(success(successfulOptions));
 
         //dispatch(goBack());
@@ -389,7 +425,7 @@ export const activateProduct = (id, value) => {
 
       const successfulOptions = {
         title: `${response.data.message}`,
-        position: "tr",
+        position: 'tr',
         autoDismiss: 1,
       };
 
@@ -406,15 +442,17 @@ export const activateProduct = (id, value) => {
 export const deleteProduct = (id) => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.delete(`/api/product/delete/${id}`);
+      const response = await axios.delete(
+        `/api/product/delete/${id}`
+      );
 
       const successfulOptions = {
-        title: `${response.data.message}`,
-        position: "tr",
+        title: `Delete product successfully`,
+        position: 'tr',
         autoDismiss: 1,
       };
 
-      if (response.data.success === true) {
+      if (response.data) {
         dispatch(success(successfulOptions));
         dispatch({
           type: REMOVE_PRODUCT,
@@ -430,7 +468,7 @@ export const deleteProduct = (id) => {
 
 const productsFilterOrganizer = (n, v, s) => {
   switch (n) {
-    case "category":
+    case 'category':
       return {
         name: s.name,
         category: v,
@@ -442,7 +480,7 @@ const productsFilterOrganizer = (n, v, s) => {
         page: s.currentPage,
         limit: s.limit,
       };
-    case "brand":
+    case 'brand':
       return {
         name: s.name,
         category: s.category,
@@ -454,7 +492,7 @@ const productsFilterOrganizer = (n, v, s) => {
         page: s.currentPage,
         limit: s.limit,
       };
-    case "sorting":
+    case 'sorting':
       return {
         name: s.name,
         category: s.category,
@@ -466,7 +504,7 @@ const productsFilterOrganizer = (n, v, s) => {
         page: s.currentPage,
         limit: s.limit,
       };
-    case "price":
+    case 'price':
       return {
         name: s.name,
         category: s.category,
@@ -478,7 +516,7 @@ const productsFilterOrganizer = (n, v, s) => {
         page: s.currentPage,
         limit: s.limit,
       };
-    case "rating":
+    case 'rating':
       return {
         name: s.name,
         category: s.category,
@@ -490,7 +528,7 @@ const productsFilterOrganizer = (n, v, s) => {
         page: s.currentPage,
         limit: s.limit,
       };
-    case "pagination":
+    case 'pagination':
       return {
         name: s.name,
         category: s.category,
@@ -536,4 +574,3 @@ const getSortOrder = (value) => {
 
   return sortOrder;
 };
-

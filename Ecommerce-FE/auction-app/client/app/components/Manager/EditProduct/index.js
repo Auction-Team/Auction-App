@@ -4,7 +4,7 @@
  *
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
@@ -28,9 +28,12 @@ const EditProduct = (props) => {
     deleteProduct,
   } = props;
 
+  const [img, setImg] = useState();
+  var imgUrl = img ? URL.createObjectURL(img) : '';
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateProduct();
+    updateProduct(img);
   };
 
   function canUpdate() {
@@ -73,6 +76,24 @@ const EditProduct = (props) => {
                 productChange(name, value);
               }}
             />
+          </Col>
+          <Col xs="12" lg="6">
+            <Input
+              type={'file'}
+              error={formErrors['file']}
+              name={'image'}
+              label={'Image'}
+              placeholder={'Please Upload Image'}
+              onInputChange={(name, value) => {
+                setImg(value);
+              }}
+            />
+          </Col>
+          <Col xs="12" lg="6">
+            <img
+              src={imgUrl ? imgUrl : product.mainImage}
+              style={{ borderRadius: '3px', height: '200px' }}
+            ></img>
           </Col>
           <Col xs="12" md="12">
             <Input
@@ -178,20 +199,20 @@ const EditProduct = (props) => {
           </Col> */}
         </Row>
         <hr />
-        {canUpdate() && (
-          <div className="d-flex flex-column flex-md-row">
-            <Button
-              type="submit"
-              text="Save"
-              className="mb-3 mb-md-0 mr-0 mr-md-3"
-            />
-            <Button
-              variant="danger"
-              text="Delete"
-              onClick={() => deleteProduct(product._id)}
-            />
-          </div>
-        )}
+        <div className="d-flex flex-column flex-md-row">
+          <Button
+            type="submit"
+            disabled={!canUpdate()}
+            text="Save"
+            className="mb-3 mb-md-0 mr-0 mr-md-3"
+          />
+          <Button
+            variant="danger"
+            text="Delete"
+            disabled={!canUpdate()}
+            onClick={() => deleteProduct(product._id)}
+          />
+        </div>
       </form>
     </div>
   );

@@ -26,7 +26,7 @@ class Cart extends React.PureComponent {
   componentDidMount() {
     if (localStorage.getItem('token')) {
       axios.get('/api/cart/list').then((x) => {
-        this.state.cartItems = x.data.listCart[0].productList;
+        this.state.cartItems = x.data.listCart;
       });
     }
   }
