@@ -39,14 +39,7 @@ const Sidebar = () => {
               to="/"
               onClick={handleCloseSideBar}
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
-            >
-              <img
-                src={process.env.PUBLIC_URL + "/logo.png"}
-                alt="logo"
-                className="w-20 h-auto"
-              />
-              <span className="text-primary">Lotus Ticket</span>
-            </Link>
+            ></Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
                 type="button"
