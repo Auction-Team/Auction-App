@@ -15,12 +15,14 @@ import AddToWishList from "../AddToWishList";
 
 const ProductList = (props) => {
   const { products, updateWishlist, authenticated } = props;
-  console.log({ products });
-  const socket = io.connect("http://localhost:5000");
+  console.log({ socket });
+  const { socket, connect, disconnect } = useSocket();
   const userId = jwtDecode(localStorage.getItem("token")).id;
   const onJoinAuction = (productId) => {
-    socket.on("join_auction_product", (userId, productId));
+    socket.emit("join_auction_product", (userId, productId));
     console.log("joined");
+    console.log("userId:", userId);
+    console.log("productId:", productId);
   };
   return (
     <div className="product-list">

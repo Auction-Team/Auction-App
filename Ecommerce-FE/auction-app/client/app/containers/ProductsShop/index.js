@@ -26,7 +26,6 @@ function ProductShop(props) {
   const [totalPage, setTotalPage] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const handlePageClick = (event) => {
-    console.log("select: " + event.selected);
     setCurrentPage(event.selected);
   };
   useEffect(() => {
@@ -45,8 +44,6 @@ function ProductShop(props) {
     setLoading(false);
   }, [currentPage]);
   console.log("current page: " + currentPage);
-
-  console.log({ products });
   return (
     <div className="products-shop">
       {loading && <LoadingIndicator />}

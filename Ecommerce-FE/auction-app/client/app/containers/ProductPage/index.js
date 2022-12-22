@@ -22,6 +22,7 @@ import { convertToDateTimeString } from "../../utils/date";
 import { useSocket } from "../../contexts/Socket";
 import Pagination from "../../components/Common/Pagination";
 import jwt_decode from "jwt-decode";
+import UserAuctionBox from "../../components/UserAuctionBox";
 function ProductPage() {
   const { id } = useParams();
   const getProductById = async (id) => {
@@ -37,6 +38,7 @@ function ProductPage() {
 
   // Messages States
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState("");
   const [messageReceived, setMessageReceived] = useState("");
   const { socket, connect, disconnect } = useSocket();
 
@@ -49,38 +51,22 @@ function ProductPage() {
     }
   );
   const userId = jwt_decode(localStorage.getItem("token")).id;
-  console.log({ userId });
   // pagination
   const [current, setCurrent] = useState(3);
   const onChange = (page) => {
-    console.log(page);
     setCurrent(page);
   };
 
   useEffect(() => {
     connect();
   }, []);
-  useEffect(() => {
-    if (socket) {
-      socket.on("join_auction_product", (userId, id) => {
-        setUsers(users);
-      });
-      socket.on("add_message_group", (msgs, id) => {
-        setMessages((prevState) => [...prevState, ...msgs]);
-      });
-      socket.on("message", onMessage);
-    }
-
-    return () => {
-      disconnect();
-    };
-  }, [socket]);
   const onMessage = (message) => {
     setMessages((prevState) => [...prevState, message]);
   };
 
   return (
-    <div className="product-shop">
+    <div className="product-shop flex gap-x-8 items-start">
+      <UserAuctionBox />
       {isLoading ? (
         <LoadingIndicator />
       ) : Object.keys(product).length > 0 ? (

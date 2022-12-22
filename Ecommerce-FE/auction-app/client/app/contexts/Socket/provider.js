@@ -19,6 +19,7 @@ const SocketProvider = ({ children }) => {
       sk.connect();
       sk.auth;
       setSocket(sk);
+      console.log({ sk });
       console.log("Connected");
     }
   };
