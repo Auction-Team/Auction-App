@@ -85,20 +85,27 @@ export const login = () => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState) => {
-    const successfulOptions = {
-      title: `You have signed out!`,
-      position: 'tr',
-      autoDismiss: 1
-    };
+  return async (dispatch, getState) => {  
+    try{
+      const response = await axios.get('/api/auth/logout');
 
-    dispatch(clearAuth());
-    dispatch(clearAccount());
-    dispatch(push('/login'));
-
-    localStorage.removeItem('token');
-
-    dispatch(success(successfulOptions));
-    // dispatch(clearCart());
+      const successfulOptions = {
+        title: response.data.message ?? `You have signed out!`,
+        position: 'tr',
+        autoDismiss: 1
+      };
+  
+      dispatch(clearAuth());
+      dispatch(clearAccount());
+      dispatch(push('/login'));
+  
+      localStorage.removeItem('token');
+  
+      dispatch(success(successfulOptions));
+      // dispatch(clearCart());    
+    } catch (error) {
+      const title = `Please try to logout again!`;
+      handleError(error, dispatch, title);
+    }
   };
 };

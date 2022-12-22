@@ -189,11 +189,11 @@ export const fetchProducts = () => {
     try {
       dispatch(setProductLoading(true));
 
-      const response = await axios.get(`/api/product/search`);
+      const response = await axios.get(`/api/product/my/search`);
 
       dispatch({
         type: FETCH_PRODUCTS,
-        payload: response.data?.productList?.datas,
+        payload: response.data?.productList
       });
     } catch (error) {
       handleError(error, dispatch);

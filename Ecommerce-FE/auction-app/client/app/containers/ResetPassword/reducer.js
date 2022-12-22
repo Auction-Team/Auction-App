@@ -12,9 +12,8 @@ import {
 
 const initialState = {
   resetFormData: {
-    oldPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
+    password: '',
+    confirmPassword: ''
   },
   formErrors: {}
 };
@@ -35,9 +34,8 @@ const resetPasswordReducer = (state = initialState, action) => {
       return {
         ...state,
         resetFormData: {
-          oldPassword: '',
-          newPassword: '',
-          confirmNewPassword: ''
+          password: '',
+          confirmPassword: ''
         },
         formErrors: {}
       };
