@@ -43,7 +43,7 @@ if (token) {
   store.dispatch({ type: SET_AUTH });
 }
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "http://107.20.96.13:5000";
 
 const app = () => (
   <SocketProvider>
