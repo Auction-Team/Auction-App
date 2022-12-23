@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { success } from 'react-notification-system-redux';
 
 import NotFound from '../../Common/NotFound';
 import LoadingIndicator from '../../Common/LoadingIndicator';
 
-const ReconcileList = () => {
+const ReconcileList = (props) => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setLoading(true);
@@ -15,12 +18,24 @@ const ReconcileList = () => {
       if (!onDestroy) {
         if (res.data.reconcileList.length > 0) {
           setList(res.data.reconcileList);
-        }
-        else {
+        } else {
           setLoading(false);
         }
       }
     });
+
+    if (
+      window.location.search.substring(1).split('&').length == 3 &&
+      props.reRender == 1
+    ) {
+      dispatch(
+        success({
+          title: `Deposit money into the system successfully!`,
+          position: 'tr',
+          autoDismiss: 1,
+        })
+      );
+    }
 
     return () => {
       onDestroy = true;

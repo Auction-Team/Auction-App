@@ -64,12 +64,14 @@ class List extends React.PureComponent {
       <SubPage
         title="Reconcile"
         actionTitle="Add"
-        handleAction={() => history.push('/dashboard/reconcile/add')}
+        handleAction={() => history.push('/dashboard/reconcile/add')}        
+        subActionTitle="Withdraw"
+        handleSubAction={() => history.push('/dashboard/reconcile/withdraw')} 
       >
         {this.state.loading ? (
           <LoadingIndicator inline />
         ) : (
-          <ReconcileList />
+          <ReconcileList reRender={reRender}/>
         )}
       </SubPage>
     );
