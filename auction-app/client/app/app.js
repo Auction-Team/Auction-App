@@ -48,7 +48,7 @@ if (token) {
   store.dispatch({ type: SET_AUTH });
 }
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = "https://pb-ec22-20-hcmute-auction.site";
 
 const app = () => (
   <PayPalScriptProvider
