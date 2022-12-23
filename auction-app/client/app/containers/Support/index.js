@@ -22,6 +22,7 @@ class Support extends React.PureComponent {
       <Switch>
         <Route exact path='/dashboard/reconcile' component={List} />
         <Route exact path='/dashboard/reconcile/add' component={Add} />
+        <Route exact path='/dashboard/reconcile/:status' component={List} />
         <Route path='*' component={Page404} />
       </Switch>
     </div>

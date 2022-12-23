@@ -32,6 +32,7 @@
   "homepage": "https://github.com/mohamedsamara/mern-ecommerce#readme",
   "dependencies": {
     "@fontsource/poppins": "^4.5.9",
+    "@paypal/react-paypal-js": "^7.8.2",
     "autosuggest-highlight": "^3.1.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.3.1",

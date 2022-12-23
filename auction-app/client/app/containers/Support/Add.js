@@ -15,7 +15,7 @@ import AddReconcile from '../../components/Manager/Support/Add';
 
 class Add extends React.PureComponent {
   render() {
-    const { history } = this.props;
+    const { history, user } = this.props;
 
     return (
       <SubPage
@@ -23,7 +23,7 @@ class Add extends React.PureComponent {
         actionTitle="Cancel"
         handleAction={() => history.goBack()}
       >
-        <AddReconcile history={history}/>
+        <AddReconcile history={history} user={user}/>
       </SubPage>
     );
   }
@@ -31,7 +31,7 @@ class Add extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    // user: state.account.user,
+    user: state.account.user,
     // productFormData: state.product.productFormData,
     // formErrors: state.product.formErrors,
   };

@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
-import axios from 'axios';
 
 const AddReconcile = (props) => {
-  const { history } = props;
+  const { history, user } = props;
   const [money, setMoney] = useState(5);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    axios.post('/api/paypal/pay', {transactionalMoney: money}).then(res => {
-      console.log(res)
-    })
+    localStorage.setItem("moneyPaypal", money);
+    axios
+      .post('/api/paypal/pay', { transactionalMoney: money })
+      .then((res) => {
+        window.location.replace(res.data.link);
+      });
     // history.goBack();
-  };
+  };  
 
   return (
     <form onSubmit={handleOnSubmit}>

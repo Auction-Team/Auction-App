@@ -94,12 +94,12 @@ export const signOut = () => {
         position: "tr",
         autoDismiss: 1,
       };
-
+      localStorage.removeItem("token");
+      
       dispatch(clearAuth());
       dispatch(clearAccount());
       dispatch(push("/login"));
 
-      localStorage.removeItem("token");
 
       dispatch(success(successfulOptions));
       // dispatch(clearCart());
