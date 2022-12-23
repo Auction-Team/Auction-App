@@ -43,7 +43,8 @@ if (token) {
   store.dispatch({ type: SET_AUTH });
 }
 
-axios.defaults.baseURL = "https://pb-ec22-20-hcmute-auction.site";
+// axios.defaults.baseURL = "https://pb-ec22-20-hcmute-auction.site";
+axios.defaults.baseURL = "http://localhost:5000";
 
 const app = () => (
   <SocketProvider>

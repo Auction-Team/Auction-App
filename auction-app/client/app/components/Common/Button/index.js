@@ -4,21 +4,21 @@
  *
  */
 
-import React from 'react';
+import React from "react";
 
-import Tooltip from '../Tooltip';
+import Tooltip from "../Tooltip";
 
 const variants = {
-  primary: 'custom-btn-primary',
-  secondary: 'custom-btn-secondary',
-  danger: 'custom-btn-danger',
-  link: 'custom-btn-link',
-  dark: 'custom-btn-dark',
-  none: 'custom-btn-none',
-  empty: ''
+  primary: "custom-btn-primary",
+  secondary: "custom-btn-secondary",
+  danger: "custom-btn-danger",
+  link: "custom-btn-link",
+  dark: "custom-btn-dark",
+  none: "custom-btn-none",
+  empty: "",
 };
 
-const Button = props => {
+const Button = (props) => {
   const {
     id,
     size,
@@ -38,21 +38,21 @@ const Button = props => {
     round,
     onClick,
     tooltip,
-    tooltipContent
+    tooltipContent,
   } = props;
 
-  const v = variant ? variants[variant] : '';
+  const v = variant ? variants[variant] : "";
 
   const btnVariant = v;
 
   const btn =
-    icon && text ? 'with-icon' : icon && !text ? 'icon-only' : 'text-only';
+    icon && text ? "with-icon" : icon && !text ? "icon-only" : "text-only";
 
   const classNames = `input-btn${`${className && ` ${className}`}`}${
     btnVariant && ` ${btnVariant}`
   }${` ${size}`} ${btn} ${
-    iconDirection === 'left' ? 'icon-left' : 'icon-right'
-  } ${borderless ? 'border-0' : ''}`;
+    iconDirection === "left" ? "icon-left" : "icon-right"
+  } ${borderless ? "border-0" : ""}`;
 
   const iconClassNames = `btn-icon${`${iconClassName && ` ${iconClassName}`}`}`;
 
@@ -70,18 +70,20 @@ const Button = props => {
       type={type}
       onClick={onClick}
       style={{
-        borderRadius: round
+        borderRadius: round,
+        display: "flex",
+        alignItems: "center",
       }}
     >
       {tooltip && <Tooltip target={tooltipId}>{tooltipContent}</Tooltip>}
-      {iconDirection === 'left' ? (
+      {iconDirection === "left" ? (
         <>
           {icon && <div className={iconClassNames}>{icon}</div>}
-          {text && <span className='btn-text'>{text}</span>}
+          {text && <span className="btn-text">{text}</span>}
         </>
       ) : (
         <>
-          {text && <span className='btn-text'>{text}</span>}
+          {text && <span className="btn-text">{text}</span>}
           {icon && <div className={iconClassNames}>{icon}</div>}
         </>
       )}
@@ -90,14 +92,14 @@ const Button = props => {
 };
 
 Button.defaultProps = {
-  type: 'button',
-  variant: 'secondary',
-  size: 'md',
-  className: '',
-  iconDirection: 'left',
-  iconClassName: '',
+  type: "button",
+  variant: "secondary",
+  size: "md",
+  className: "",
+  iconDirection: "left",
+  iconClassName: "",
   borderless: false,
-  round: 3
+  round: 3,
 };
 
 export default Button;

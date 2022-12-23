@@ -37,13 +37,14 @@ function ProductShop(props) {
           page: currentPage,
         },
       });
-      setProducts(response.data.productList.datas);
+      setProducts(response.data.productList.datas ?? []);
       setTotalPage(response.data.productList.totalData);
     };
     fetchProduct();
     setLoading(false);
   }, [currentPage]);
   console.log("current page: " + currentPage);
+  console.log("product:", products);
   return (
     <div className="products-shop">
       {loading && <LoadingIndicator />}

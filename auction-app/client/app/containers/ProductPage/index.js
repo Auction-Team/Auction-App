@@ -4,8 +4,8 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React, { Profiler, useEffect, useState } from "react";
+import { connect, useSelector } from "react-redux";
 import { Row, Col } from "reactstrap";
 import { Link, useParams } from "react-router-dom";
 
@@ -15,6 +15,7 @@ import Button from "../../components/Common/Button";
 import LoadingIndicator from "../../components/Common/LoadingIndicator";
 import NotFound from "../../components/Common/NotFound";
 import { RiAuctionLine } from "react-icons/ri";
+import { ImCancelCircle } from "react-icons/im";
 import ProductReviews from "../../components/Store/ProductReviews";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import axios from "axios";
@@ -23,25 +24,84 @@ import { useSocket } from "../../contexts/Socket";
 import Pagination from "../../components/Common/Pagination";
 import jwt_decode from "jwt-decode";
 import UserAuctionBox from "../../components/UserAuctionBox";
+import { toast, Toaster } from "react-hot-toast";
 function ProductPage() {
   const { id } = useParams();
+  const [error, setError] = useState("");
+  const [role, setRole] = useState("");
+  console.log({ role });
   const getProductById = async (id) => {
-    const response = await axios.get(`/api/product/detail/${id}`, {
-      params: {
-        size: 10000,
-      },
-    });
+    const response = await axios.get(`/api/product/detail/${id}`);
     return response.data.product;
   };
-  //Room State
-  const [room, setRoom] = useState("");
+  // get profile
+  useEffect(() => {
+    const profile = async () => {
+      try {
+        const response = await axios.get("/api/auth/profile");
+        setRole(response.data.user.role);
+        return response.data;
+      } catch (e) {
+        return e.response.data;
+      }
+      // const response = console.log({ response });
+      // if (response.data.success === false) {
+      //   setError(response.data.message);
+      //   toast.error(response.data.message);
+      // }
+      return response.data;
+    };
+    profile();
+  }, []);
+  console.log({ role });
+  const placeBid = async () => {
+    try {
+      const response = await axios.post("/api/auction/payment/place", {
+        productId: id,
+        auctionMoney: Number(priceToBid),
+      });
+      console.log(response.data);
+      toast.success("Successfully bid!");
+      return response.data;
+    } catch (e) {
+      console.log(e.response.data);
+      toast.error(e.response.data.message);
+      return e.response.data;
+    }
+  };
+  const changePlaceBid = async () => {
+    try {
+      const response = await axios.put("/api/auction/payment/change", {
+        productId: id,
+        auctionMoney: Number(priceToBid),
+      });
+      console.log(response.data);
+      toast.success("Successfully bid!");
+      return response.data;
+    } catch (e) {
+      console.log(e.response.data);
+      toast.error(e.response.data.message);
+      return e.response.data;
+    }
+  };
+  const endBid = async () => {
+    try {
+      const response = await axios.put("/api/auction/payment/end-auction", {
+        productId: id,
+      });
+      console.log(response.data);
+      toast.success("Successfully end bid!");
+      return response.data;
+    } catch (e) {
+      console.log(e.response.data);
+      toast.error(e.response.data.message);
+      return e.response.data;
+    }
+  };
 
-  // Messages States
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState("");
-  const [messageReceived, setMessageReceived] = useState("");
-  const { socket, connect, disconnect } = useSocket();
+  useEffect(() => {}, [error]);
 
+  const [priceToBid, setPriceToBid] = useState();
   const { data: product, isLoading } = useQuery(
     ["getEventDetail", id],
     () => getProductById(id),
@@ -50,13 +110,14 @@ function ProductPage() {
       cacheTime: 1000 * 60,
     }
   );
+  console.log({ priceToBid });
   const userId = jwt_decode(localStorage.getItem("token")).id;
   // pagination
   const [current, setCurrent] = useState(3);
   const onChange = (page) => {
     setCurrent(page);
   };
-
+  console.log({ product });
   useEffect(() => {
     connect();
   }, []);
@@ -66,10 +127,12 @@ function ProductPage() {
 
   return (
     <div className="product-shop flex gap-x-8 items-start">
-      <UserAuctionBox />
+      {/* <UserAuctionBox /> */}
       {isLoading ? (
         <LoadingIndicator />
-      ) : Object.keys(product).length > 0 ? (
+      ) : product !== null &&
+        product !== undefined &&
+        Object.keys(product).length > 0 ? (
         <>
           <Row className="flex-row">
             <Col xs="12" md="5" lg="5" className="mb-3 px-3 px-md-2">
@@ -110,11 +173,12 @@ function ProductPage() {
                         {convertToDateTimeString(product.endAuctionTime)}
                       </span>
                     </p>
-                    <p className="price">${product.price}</p>
+                    <p className="price">
+                      starting price: ${product.startingPrice}
+                    </p>
                   </div>
                   <div className="item-customize">
                     <Input
-                      type={"number"}
                       label={"Price"}
                       name={"price"}
                       decimals={false}
@@ -123,13 +187,13 @@ function ProductPage() {
                       disabled={
                         product.inventory <= 0 && !shopFormErrors["quantity"]
                       }
-                      // value={auctionPrice}
-                      // onInputChange={(name, value) => {
-                      //   productShopChange(name, value);
-                      // }}
+                      value={priceToBid}
+                      onInputChange={(name, value) => {
+                        setPriceToBid(value);
+                      }}
                     />
                   </div>
-                  <div className="item-actions">
+                  <div className="item-actions flex gap-x-4">
                     <Button
                       variant="primary"
                       disabled={
@@ -138,13 +202,30 @@ function ProductPage() {
                       text="Bid"
                       className="bag-btn"
                       icon={<RiAuctionLine />}
-                      onClick={() => handleAddToCart(product)}
+                      onClick={placeBid}
                     />
+                    {role === "admin" && (
+                      <Button
+                        variant="primary"
+                        disabled={
+                          product.quantity <= 0 && !shopFormErrors["quantity"]
+                        }
+                        text="End Auction"
+                        className="bag-btn"
+                        icon={<ImCancelCircle />}
+                        onClick={endBid}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
             </Col>
           </Row>
+          <Toaster
+            position="bottom-center"
+            reverseOrder={false}
+            containerClassName="text-xl font-medium"
+          />
         </>
       ) : (
         <NotFound message="no product found." />
