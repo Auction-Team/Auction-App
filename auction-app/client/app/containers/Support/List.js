@@ -10,6 +10,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import actions from '../../actions';
+import LoadingIndicator from '../../components/Common/LoadingIndicator';
 
 import SubPage from '../../components/Manager/SubPage';
 import ReconcileList from '../../components/Manager/Support/ReconcicleList';
@@ -17,8 +18,15 @@ import ReconcileList from '../../components/Manager/Support/ReconcicleList';
 var paypal;
 var reRender = 0;
 class List extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false,
+    };
+  }
   componentDidMount() {
-    reRender+=1
+    reRender += 1;
     if (this.props.match.params.status == 'success') {
       paypal = this.props.location.search
         .substring(1)
@@ -35,6 +43,7 @@ class List extends React.PureComponent {
     var money = parseInt(localStorage.getItem('moneyPaypal'));
 
     if (money && reRender == 1) {
+      this.state.loading = true;
       axios
         .post(`/api/paypal/success`, {
           paymentId: paypal[0].paymentId,
@@ -44,6 +53,7 @@ class List extends React.PureComponent {
         .then((res) => {
           localStorage.removeItem('moneyPaypal');
           reRender = 0;
+          this.state.loading = false;
         });
     }
   }
@@ -56,7 +66,11 @@ class List extends React.PureComponent {
         actionTitle="Add"
         handleAction={() => history.push('/dashboard/reconcile/add')}
       >
-        <ReconcileList paypal={paypal} />
+        {this.state.loading ? (
+          <LoadingIndicator inline />
+        ) : (
+          <ReconcileList />
+        )}
       </SubPage>
     );
   }

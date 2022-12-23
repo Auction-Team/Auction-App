@@ -87,10 +87,10 @@ export const login = () => {
 export const signOut = () => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.get("/api/auth/logout");
+      // const response = await axios.get("/api/auth/logout");
 
       const successfulOptions = {
-        title: response.data.message ?? `You have signed out!`,
+        title: `You have signed out!`,
         position: "tr",
         autoDismiss: 1,
       };

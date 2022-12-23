@@ -52,7 +52,7 @@ const EditProduct = (props) => {
 
   return (
     <div className="edit-product">
-      <div className="d-flex flex-row mx-0 mb-3">
+      {/* <div className="d-flex flex-row mx-0 mb-3">
         <label className="mr-1">Product link </label>
         <Link
           to={`/product/${product.slug}`}
@@ -60,7 +60,7 @@ const EditProduct = (props) => {
         >
           {product.slug}
         </Link>
-      </div>
+      </div> */}
 
       <form onSubmit={handleSubmit} noValidate>
         <Row>
