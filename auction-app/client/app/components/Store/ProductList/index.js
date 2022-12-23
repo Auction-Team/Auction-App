@@ -16,7 +16,7 @@ import AddToWishList from "../AddToWishList";
 const ProductList = (props) => {
   const { products, updateWishlist, authenticated } = props;
   console.log({ socket });
-  const { socket, connect, disconnect } = useSocket();
+  const socket = io.connect("http://localhost:5000");
   const userId = jwtDecode(localStorage.getItem("token")).id;
   const onJoinAuction = (productId) => {
     socket.emit("join_auction_product", (userId, productId));
