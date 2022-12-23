@@ -397,16 +397,16 @@ export const updateProduct = (img) => {
       }
 
       const successfulOptions = {
-        title: `${response.data.message}`,
+        title: `Update product successfully`,
         position: 'tr',
         autoDismiss: 1,
       };
 
-      if (response.data) {
+      // if (response.data) {
         dispatch(success(successfulOptions));
 
         //dispatch(goBack());
-      }
+      // }
     } catch (error) {
       handleError(error, dispatch);
     }

@@ -4,11 +4,12 @@
  *
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'reactstrap';
 import dayjs from 'dayjs';
+import axios from 'axios'
 
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
@@ -50,6 +51,27 @@ const EditProduct = (props) => {
     return res;
   }
 
+  const [listCategory, setListCategory] = useState([]);
+  useEffect(() => {
+    let destroy = false;
+
+    axios.get(`/api/product/category/list`).then(res => {
+      if(!destroy) {
+        setListCategory(res.data.categoryList.map(x => {
+          return {
+            value: x._id,
+            label: x.name,
+            description: x.description
+          }
+        }))
+      }
+    })
+    
+    return () => {
+      destroy = true;
+    };
+  }, []);
+  
   return (
     <div className="edit-product">
       {/* <div className="d-flex flex-row mx-0 mb-3">
@@ -186,17 +208,18 @@ const EditProduct = (props) => {
               }}
             />
           </Col>
-          {/* <Col xs="12" md="12">
+          <Col xs="12" md="12">
             <SelectOption
               error={formErrors['category']}
               label={'Category'}
               name={'category'}
               options={listCategory}
+              value={listCategory.filter(x => x.value === product.category)}
               handleSelectChange={(x) => {
                 productChange('category', x.value);
               }}
             />
-          </Col> */}
+          </Col>
         </Row>
         <hr />
         <div className="d-flex flex-column flex-md-row">
